@@ -10,6 +10,12 @@ dependencies:
   flutter:
     sdk: flutter
   sqflite: ^2.3.3+1
+  shimmer: ^3.0.0
+  just_audio: ^0.9.36
+  flutter_svg: ^2.0.7
+  intl: ^0.18.1
+  provider: ^6.1.2
+  
 
 dev_dependencies:
   flutter_test:
@@ -18,3 +24,14 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/Lato-Bold.ttf
+        - asset: assets/fonts/Lato-Light.ttf
+        - asset: assets/fonts/Lato-Regular.ttf
+    - family: Edo
+      fonts:
+        - asset: assets/fonts/edo.ttf
+  assets:
+    - assets/images/
