@@ -14,12 +14,23 @@ class Styles {
         Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
       ]);
 
+  static const sLabelTxtStyle = TextStyle(
+      fontFamily: 'edo',
+      fontWeight: FontWeight.w600,
+      color: darkbrown,
+      fontSize: 20,
+      shadows: [
+        Shadow(offset: Offset(-1.5, -1.5), color: Colors.white),
+        Shadow(offset: Offset(1.5, -1.5), color: Colors.white),
+        Shadow(offset: Offset(1.5, 1.5), color: Colors.white),
+        Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
+      ]);
+
   static const titleBarStyle = TextStyle(
       fontFamily: 'Lato',
       fontWeight: FontWeight.w800,
-      letterSpacing: 1.0,
       color: black,
-      fontSize: 23);
+      fontSize: 20);
 
   static const wBold14 = TextStyle(
       fontFamily: 'Lato',
@@ -44,6 +55,12 @@ class Styles {
       fontWeight: FontWeight.w800,
       color: Colors.black,
       fontSize: 15);
+
+  static const bBold12 = TextStyle(
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w800,
+      color: Colors.black,
+      fontSize: 12);
 
   static const bRegular12 = TextStyle(
       fontFamily: 'Lato',

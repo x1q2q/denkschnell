@@ -3,9 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 class SVG {
   static const String strHomeIcon = '''
-    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-      <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-      <svg fill="#ffffff" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
+    <svg fill="#ffffff" width="800px" height="800px" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff">
       <g id="SVGRepo_bgCarrier" stroke-width="0"/>
       <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
       <g id="SVGRepo_iconCarrier">
@@ -15,9 +13,7 @@ class SVG {
   ''';
 
   static const String strCrossIcon = '''
-    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-      <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-      <svg width="800px" height="800px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff" stroke="#ffffff">
+    <svg width="800px" height="800px" viewBox="0 0 25 25" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff" stroke="#ffffff">
       <g id="SVGRepo_bgCarrier" stroke-width="0"/>
       <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
       <g id="SVGRepo_iconCarrier"> <title>cross</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-469.000000, -1041.000000)" fill="#ffffff"> <path d="M487.148,1053.48 L492.813,1047.82 C494.376,1046.26 494.376,1043.72 492.813,1042.16 C491.248,1040.59 488.712,1040.59 487.148,1042.16 L481.484,1047.82 L475.82,1042.16 C474.257,1040.59 471.721,1040.59 470.156,1042.16 C468.593,1043.72 468.593,1046.26 470.156,1047.82 L475.82,1053.48 L470.156,1059.15 C468.593,1060.71 468.593,1063.25 470.156,1064.81 C471.721,1066.38 474.257,1066.38 475.82,1064.81 L481.484,1059.15 L487.148,1064.81 C488.712,1066.38 491.248,1066.38 492.813,1064.81 C494.376,1063.25 494.376,1060.71 492.813,1059.15 L487.148,1053.48" id="cross" sketch:type="MSShapeGroup"> </path> </g> </g> </g>
@@ -25,19 +21,17 @@ class SVG {
   ''';
 
   static const String strNextIcon = '''
-    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-      <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-      <svg width="800px" height="800px" viewBox="0 0 24 24" id="_24x24_On_Light_Next" data-name="24x24/On Light/Next" xmlns="http://www.w3.org/2000/svg" fill="#ffffff" stroke="#ffffff" stroke-width="0.792">
-      <g id="SVGRepo_bgCarrier" stroke-width="0"/>
-      <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
-      <g id="SVGRepo_iconCarrier"> <rect id="view-box" width="24" height="24" fill="#ffffff" opacity="0"/> <path id="Shape" d="M10.22,9.28a.75.75,0,0,1,0-1.06l2.72-2.72H.75A.75.75,0,0,1,.75,4H12.938L10.22,1.281A.75.75,0,1,1,11.281.22l4,4a.749.749,0,0,1,0,1.06l-4,4a.75.75,0,0,1-1.061,0Z" transform="translate(4.25 7.25)" fill="#ffffff"/> </g>
-    </svg>
+   <svg height="200px" width="200px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" xml:space="preserve" fill="#ffffff" stroke="#ffffff">
+    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+    <g id="SVGRepo_iconCarrier"> 
+      <path style="fill:#ffffff;" d="M511.746,252.725c-0.061-0.427-0.11-0.852-0.194-1.275c-0.076-0.382-0.18-0.749-0.275-1.125 c-0.092-0.362-0.171-0.726-0.279-1.085c-0.112-0.369-0.251-0.726-0.38-1.089c-0.127-0.354-0.244-0.711-0.388-1.06 c-0.143-0.34-0.307-0.666-0.464-0.998c-0.168-0.355-0.327-0.715-0.514-1.064c-0.171-0.321-0.366-0.624-0.552-0.936 c-0.203-0.34-0.394-0.684-0.616-1.015c-0.234-0.351-0.493-0.68-0.745-1.015c-0.205-0.272-0.393-0.549-0.608-0.815 c-0.489-0.594-1.002-1.167-1.548-1.71l-116.36-116.363c-9.086-9.089-23.822-9.089-32.912,0c-9.089,9.089-9.089,23.824,0,32.912 l76.634,76.639H23.273C10.42,232.729,0,243.149,0,256.002c0,12.853,10.42,23.273,23.273,23.273h409.272l-76.636,76.634 c-9.089,9.089-9.089,23.824,0,32.913c4.544,4.544,10.501,6.817,16.457,6.817c5.956,0,11.913-2.271,16.455-6.817l116.36-116.36 c0.546-0.543,1.06-1.116,1.548-1.711c0.216-0.264,0.403-0.543,0.608-0.813c0.251-0.335,0.51-0.664,0.745-1.015 c0.223-0.33,0.414-0.675,0.616-1.015c0.186-0.312,0.382-0.614,0.552-0.936c0.186-0.351,0.346-0.709,0.514-1.066 c0.157-0.332,0.321-0.658,0.464-0.998c0.144-0.349,0.261-0.706,0.388-1.06c0.129-0.362,0.268-0.718,0.38-1.089 c0.107-0.358,0.188-0.721,0.279-1.085c0.095-0.374,0.199-0.743,0.275-1.125c0.084-0.422,0.133-0.849,0.194-1.275 c0.047-0.326,0.109-0.647,0.143-0.976c0.15-1.53,0.15-3.07,0-4.6C511.854,253.372,511.792,253.051,511.746,252.725z"></path> 
+    </g>
+   </svg>
   ''';
 
   static const String strCheckmarkIcon = '''
-    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-      <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-      <svg width="800px" height="800px" viewBox="0 -3 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff" stroke="#ffffff">
+    <svg width="800px" height="800px" viewBox="0 -3 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns" fill="#ffffff" stroke="#ffffff">
       <g id="SVGRepo_bgCarrier" stroke-width="0"/>
       <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
       <g id="SVGRepo_iconCarrier"> <title>checkmark</title> <desc>Created with Sketch Beta.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage"> <g id="Icon-Set-Filled" sketch:type="MSLayerGroup" transform="translate(-518.000000, -1039.000000)" fill="#ffffff"> <path d="M548.783,1040.2 C547.188,1038.57 544.603,1038.57 543.008,1040.2 L528.569,1054.92 L524.96,1051.24 C523.365,1049.62 520.779,1049.62 519.185,1051.24 C517.59,1052.87 517.59,1055.51 519.185,1057.13 L525.682,1063.76 C527.277,1065.39 529.862,1065.39 531.457,1063.76 L548.783,1046.09 C550.378,1044.46 550.378,1041.82 548.783,1040.2" id="checkmark" sketch:type="MSShapeGroup"> </path> </g> </g> </g>
@@ -45,9 +39,7 @@ class SVG {
   ''';
 
   static const String strSpiralIcon = '''
-    <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-      <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-      <svg width="800px" height="800px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff">
+    <svg width="800px" height="800px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="#ffffff">
       <g id="SVGRepo_bgCarrier" stroke-width="0"/>
       <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
       <g id="SVGRepo_iconCarrier"> <title> spiral [#32]</title> <desc>Created with Sketch.</desc> <defs> </defs> <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd"> <g id="Dribbble-Light-Preview" transform="translate(-300.000000, -8039.000000)" fill="#ffffff"> <g id="icons" transform="translate(56.000000, 160.000000)"> <path d="M264,7887 C264,7891.418 260.418,7895 256,7895 L254,7895 C250.686,7895 248,7892.314 248,7889 C248,7885.686 250.686,7883 254,7883 L256,7883 C258.209,7883 260,7884.791 260,7887 C260,7889.209 258.209,7891 256,7891 L254,7891 C252.896,7891 252,7890.105 252,7889 C252,7887.895 252.896,7887 254,7887 C255.105,7887 256,7887.895 256,7889 C257.105,7889 258,7888.105 258,7887 C258,7885.895 257.105,7885 256,7885 L254,7885 C251.791,7885 250,7886.791 250,7889 C250,7891.209 251.791,7893 254,7893 L256,7893 C259.314,7893 262,7890.314 262,7887 C262,7883.686 259.314,7881 256,7881 L254,7881 C249.582,7881 246,7884.582 246,7889 C246,7893.418 249.582,7897 254,7897 L255,7897 C255.552,7897 256,7897.448 256,7898 C256,7898.552 255.552,7899 255,7899 L254,7899 C248.477,7899 244,7894.523 244,7889 C244,7883.477 248.477,7879 254,7879 L256,7879 C260.418,7879 264,7882.582 264,7887" id="-spiral-[#32]"> </path> </g> </g> </g> </g>
@@ -55,7 +47,6 @@ class SVG {
   ''';
 
   static const String strQuestionMark = '''
-    <?xml version="1.0" encoding="utf-8"?>
       <svg viewBox="-9.3634 95.3851 437.9222 281.4662" xmlns="http://www.w3.org/2000/svg">
         <g id="SVGRepo_iconCarrier" transform="matrix(0.209913000464, -0.132379025221, 0.132379025221, 0.209913000464, -416.531350934526, -253.778550847197)" style="opacity: 1; transform-origin: 511.546px 512.119px;">
           <path d="M715.720415 207.522102C675.902539 136.26685 603.803606 95.397443 518.015326 95.397443c-129.594189 0-205.287984 72.306782-238.682003 195.401348-20.885213 76.845665 110.976883 131.618411 140.38594 27.173916 15.792407-56.028029 37.099461-79.499576 98.296063-79.499576 33.883437 0 58.475115 13.134401 72.864799 38.912762 15.649063 28.014526 14.18286 62.384309 3.633769 79.571248-17.119363 27.874254-35.489913 44.013758-56.72939 62.663829-44.432528 39.05201-99.619947 88.864031-99.619946 221.809398 0 70.489385 71.537844 71.537844 71.537843 71.537844 39.470779 0 71.537844-32.067064 71.537844-71.537844 0-69.581199 14.880125-82.643928 50.856384-114.224647 25.013518-21.933671 55.960452-49.11066 84.325148-95.35956 39.677604-64.691123 39.399107-152.714544-0.701362-224.324059z" fill="#27323A"/>
@@ -79,9 +70,7 @@ class SVG {
   ''';
 
   static const String strQuotesTop = '''
-  <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-    <svg height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2.31 -2.31 50.81 50.81" xml:space="preserve" fill="#000000" stroke="#000000" transform="matrix(-1, 0, 0, 1, 0, 0)rotate(0)">
+  <svg height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2.31 -2.31 50.81 50.81" xml:space="preserve" fill="#000000" stroke="#000000" transform="matrix(-1, 0, 0, 1, 0, 0)rotate(0)">
     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
     <g id="SVGRepo_iconCarrier"> <g> <path style="fill:#fafafa;" d="M35.765,8.264c-5.898,0-10.555,4.782-10.555,10.68s4.844,10.68,10.742,10.68 c0.059,0,0.148-0.008,0.207-0.009c-2.332,1.857-5.261,2.976-8.467,2.976c-1.475,0-2.662,1.196-2.662,2.67s0.949,2.67,2.424,2.67 c10.469-0.001,18.741-8.518,18.741-18.987c0-0.002,0-0.004,0-0.007C46.195,13.042,41.661,8.264,35.765,8.264z"/> <path style="fill:#fafafa;" d="M10.75,8.264c-5.898,0-10.563,4.782-10.563,10.68s4.84,10.68,10.739,10.68 c0.059,0,0.146-0.008,0.205-0.009c-2.332,1.857-5.262,2.976-8.468,2.976C1.188,32.591,0,33.787,0,35.261s0.964,2.67,2.439,2.67 c10.469-0.001,18.756-8.518,18.756-18.987c0-0.002,0-0.004,0-0.007C21.195,13.042,16.646,8.264,10.75,8.264z"/> </g> </g>
@@ -89,9 +78,7 @@ class SVG {
   ''';
 
   static const String strQuotesBottom = '''
-   <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
-    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Transformed by: SVG Repo Mixer Tools -->
-    <svg height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2.31 -2.31 50.81 50.81" xml:space="preserve" fill="#000000" stroke="#000000" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
+  <svg height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2.31 -2.31 50.81 50.81" xml:space="preserve" fill="#000000" stroke="#000000" transform="matrix(1, 0, 0, 1, 0, 0)rotate(0)">
     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
     <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"/>
     <g id="SVGRepo_iconCarrier"> <g> <path style="fill:#fafafa;" d="M35.765,8.264c-5.898,0-10.555,4.782-10.555,10.68s4.844,10.68,10.742,10.68 c0.059,0,0.148-0.008,0.207-0.009c-2.332,1.857-5.261,2.976-8.467,2.976c-1.475,0-2.662,1.196-2.662,2.67s0.949,2.67,2.424,2.67 c10.469-0.001,18.741-8.518,18.741-18.987c0-0.002,0-0.004,0-0.007C46.195,13.042,41.661,8.264,35.765,8.264z"/> <path style="fill:#fafafa;" d="M10.75,8.264c-5.898,0-10.563,4.782-10.563,10.68s4.84,10.68,10.739,10.68 c0.059,0,0.146-0.008,0.205-0.009c-2.332,1.857-5.262,2.976-8.468,2.976C1.188,32.591,0,33.787,0,35.261s0.964,2.67,2.439,2.67 c10.469-0.001,18.756-8.518,18.756-18.987c0-0.002,0-0.004,0-0.007C21.195,13.042,16.646,8.264,10.75,8.264z"/> </g> </g>
@@ -101,6 +88,7 @@ class SVG {
   static Widget homeIcon = SvgPicture.string(strHomeIcon);
   static Widget nextIcon = SvgPicture.string(strNextIcon);
   static Widget checkIcon = SvgPicture.string(strCheckmarkIcon);
+  static Widget crossIcon = SvgPicture.string(strCrossIcon);
   static Widget spiralIcon = SvgPicture.string(strSpiralIcon);
   static Widget questionsIcon = SvgPicture.string(strQuestionMark);
 
@@ -108,4 +96,8 @@ class SVG {
       SvgPicture.string(strQuotesTop, width: 80, height: 80);
   static Widget quotes2Icon =
       SvgPicture.string(strQuotesBottom, width: 80, height: 80);
+  static Widget speakerIcon = SvgPicture.asset(
+      'assets/images/addition-speaker.svg',
+      width: 80,
+      height: 80);
 }
