@@ -16,39 +16,41 @@ class _ResultScreenState extends State<ResultScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: lightblue,
-        body: SingleChildScrollView(
-            padding: EdgeInsets.all(10),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Image.asset(
-                          'assets/images/menu-abc.png',
-                          height: 70,
-                        ),
-                        Container(
-                            child: Text(
-                              'Grammatik',
-                              style: Styles.bBold15,
-                            ),
-                            margin: EdgeInsets.only(right: 10))
-                      ]),
-                  vSpaceMedium,
-                  Center(
-                      child: Column(
+        body: SafeArea(
+            child: SingleChildScrollView(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Image.asset('assets/images/excellence.png'),
-                      vSpaceXSmall,
-                      Text('Excellent!', style: Styles.excellent)
-                    ],
-                  )),
-                  vSpaceMedium,
-                  cardWhiteHeader(context, 1),
-                  vSpaceLarge,
-                  Text('Denkschnell', style: Styles.labelTxtStyle)
-                ])));
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Image.asset(
+                              'assets/images/menu-abc.png',
+                              height: 70,
+                            ),
+                            Container(
+                                child: Text(
+                                  'Grammatik',
+                                  style: Styles.bBold15,
+                                ),
+                                margin: EdgeInsets.only(right: 10))
+                          ]),
+                      vSpaceMedium,
+                      Center(
+                          child: Column(
+                        children: <Widget>[
+                          Image.asset('assets/images/excellence.png',
+                              height: 70, width: 70),
+                          vSpaceXSmall,
+                          Text('Excellent!', style: Styles.excellent)
+                        ],
+                      )),
+                      vSpaceMedium,
+                      cardWhiteHeader(context, 1),
+                      vSpaceLarge,
+                      Text('Denkschnell', style: Styles.labelTxtStyle)
+                    ]))));
   }
 
   Widget cardWhiteHeader(BuildContext context, int questionId) {

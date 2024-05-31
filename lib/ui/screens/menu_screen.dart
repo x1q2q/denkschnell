@@ -19,39 +19,40 @@ class _MenuScreenState extends State<MenuScreen> {
     List<Menu> daftarMenu = [menu1, menu2, menu3];
     return Scaffold(
         backgroundColor: lightblue,
-        body: Container(
-            padding: EdgeInsets.all(15),
-            child: Center(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                  Text('Denkschnell', style: Styles.labelTxtStyle),
-                  vSpaceMedium,
-                  Column(
-                    children: <Widget>[
-                      GridView.builder(
-                          gridDelegate:
-                              const SliverGridDelegateWithMaxCrossAxisExtent(
-                                  maxCrossAxisExtent: 150,
-                                  crossAxisSpacing: 10,
-                                  mainAxisSpacing: 10),
-                          itemCount: daftarMenu.length,
-                          shrinkWrap: true,
-                          physics: const NeverScrollableScrollPhysics(),
-                          itemBuilder: (BuildContext ctx, index) {
-                            return menuCard(
-                                context,
-                                daftarMenu[index].id,
-                                daftarMenu[index].nameFile,
-                                daftarMenu[index].title,
-                                true);
-                          }),
-                      vSpaceLarge,
-                      menuCard(context, 0, 'spiral.png', 'über uns', false),
-                    ],
-                  )
-                ]))));
+        body: SafeArea(
+            child: Container(
+                padding: EdgeInsets.all(15),
+                child: Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                      Text('Denkschnell', style: Styles.labelTxtStyle),
+                      vSpaceMedium,
+                      Column(
+                        children: <Widget>[
+                          GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithMaxCrossAxisExtent(
+                                      maxCrossAxisExtent: 150,
+                                      crossAxisSpacing: 10,
+                                      mainAxisSpacing: 10),
+                              itemCount: daftarMenu.length,
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemBuilder: (BuildContext ctx, index) {
+                                return menuCard(
+                                    context,
+                                    daftarMenu[index].id,
+                                    daftarMenu[index].nameFile,
+                                    daftarMenu[index].title,
+                                    true);
+                              }),
+                          vSpaceLarge,
+                          menuCard(context, 0, 'spiral.png', 'über uns', false),
+                        ],
+                      )
+                    ])))));
   }
 
   Widget menuCard(BuildContext context, int id, String nameFile, String title,

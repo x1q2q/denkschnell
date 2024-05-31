@@ -19,50 +19,51 @@ Terdapat 5 soal, pemain dapat memilih untuk melanjutkan dengan menekan tombol "L
   ''';
     return Scaffold(
         backgroundColor: lightblue,
-        body: SingleChildScrollView(
-            padding: EdgeInsets.all(10),
-            child: Center(
-                child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                  Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          child: SVGBtnIcon(
-                              svg: SVG.homeIcon,
-                              onTap: () {},
-                              bgColor: red,
-                              splashColor: Colors.red),
-                          decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                        ),
-                        Container(
-                            child: Text(
-                              'Landeskunde',
-                              style: Styles.bBold15,
+        body: SafeArea(
+            child: SingleChildScrollView(
+                padding: EdgeInsets.all(10),
+                child: Center(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: SVGBtnIcon(
+                                  svg: SVG.homeIcon,
+                                  onTap: () {},
+                                  bgColor: red,
+                                  splashColor: Colors.red),
+                              decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
                             ),
-                            margin: EdgeInsets.only(right: 20))
-                      ]),
-                  Image.asset('assets/images/menu-building.png',
-                      width: 60, height: 60),
-                  vSpaceSmall,
-                  Text('Petunjuk Penggunaan', style: Styles.titleBarStyle),
-                  vSpaceSmall,
-                  CardCustom(parentContext: context, teks: content),
-                  vSpaceSmall,
-                  SVGBtnIcon(
-                      svg: SVG.nextIcon,
-                      bgColor: green,
-                      onTap: () {},
-                      splashColor: Colors.teal),
-                  vSpaceSmall,
-                  Text('Denkschnell', style: Styles.sLabelTxtStyle)
-                ]))));
+                            Container(
+                                child: Text(
+                                  'Landeskunde',
+                                  style: Styles.bBold15,
+                                ),
+                                margin: EdgeInsets.only(right: 20))
+                          ]),
+                      Image.asset('assets/images/menu-building.png',
+                          width: 60, height: 60),
+                      vSpaceSmall,
+                      Text('Petunjuk Penggunaan', style: Styles.titleBarStyle),
+                      vSpaceSmall,
+                      CardCustom(parentContext: context, teks: content),
+                      vSpaceSmall,
+                      SVGBtnIcon(
+                          svg: SVG.nextIcon,
+                          bgColor: green,
+                          onTap: () {},
+                          splashColor: Colors.teal),
+                      vSpaceSmall,
+                      Text('Denkschnell', style: Styles.sLabelTxtStyle)
+                    ])))));
   }
 }

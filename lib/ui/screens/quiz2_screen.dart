@@ -16,42 +16,43 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: lightblue,
-        body: SingleChildScrollView(
-            padding: EdgeInsets.all(10),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          child: SVGBtnIcon(
-                              svg: SVG.homeIcon,
-                              onTap: () {
-                                Navigator.popAndPushNamed(
-                                    context, '/menu-screen');
-                              },
-                              bgColor: red,
-                              splashColor: Colors.red),
-                          decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                        ),
-                        Container(
-                            child: Text(
-                              'Landeskunde',
-                              style: Styles.bBold15,
+        body: SafeArea(
+            child: SingleChildScrollView(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: SVGBtnIcon(
+                                  svg: SVG.homeIcon,
+                                  onTap: () {
+                                    Navigator.popAndPushNamed(
+                                        context, '/menu-screen');
+                                  },
+                                  bgColor: red,
+                                  splashColor: Colors.red),
+                              decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
                             ),
-                            margin: EdgeInsets.only(right: 10))
-                      ]),
-                  vSpaceMedium,
-                  cardWhite(context,
-                      'Erwähnen Sie 10 Bundesländer in Deutschland!', ''),
-                  vSpaceXSmall,
-                  cardWhiteHeader(context, 1)
-                ])));
+                            Container(
+                                child: Text(
+                                  'Landeskunde',
+                                  style: Styles.bBold15,
+                                ),
+                                margin: EdgeInsets.only(right: 10))
+                          ]),
+                      vSpaceMedium,
+                      cardWhite(context,
+                          'Erwähnen Sie 10 Bundesländer in Deutschland!', ''),
+                      vSpaceXSmall,
+                      cardWhiteHeader(context, 1)
+                    ]))));
   }
 
   Widget cardWhite(BuildContext context, String teks, String teks2) {
@@ -122,11 +123,16 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
                   splashColor: Colors.orangeAccent,
                   onTap: () {
                     showModalBottomSheet(
+                        isScrollControlled: true,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(32))),
                         context: context,
-                        builder: (BuildContext context) => modalSheet(context));
+                        builder: (BuildContext context) => Padding(
+                            padding: EdgeInsets.only(
+                                bottom:
+                                    MediaQuery.of(context).viewInsets.bottom),
+                            child: modalSheet(context)));
                   },
                 ),
                 SVGBtnIcon(
@@ -147,6 +153,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
       height: 280,
       width: MediaQuery.of(context).size.width,
       child: Column(
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [

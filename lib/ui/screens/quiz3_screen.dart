@@ -29,43 +29,44 @@ class _Quiz3ScreenState extends State<Quiz3Screen> {
  Sie können auch mit anderen Redemitteln kreativ sein!''';
     return Scaffold(
         backgroundColor: lightblue,
-        body: SingleChildScrollView(
-            padding: EdgeInsets.all(10),
-            child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: <Widget>[
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        Container(
-                          padding: EdgeInsets.all(5),
-                          child: SVGBtnIcon(
-                              svg: SVG.homeIcon,
-                              onTap: () {
-                                Navigator.popAndPushNamed(
-                                    context, '/menu-screen');
-                              },
-                              bgColor: red,
-                              splashColor: Colors.red),
-                          decoration: BoxDecoration(
-                              color: Colors.amber,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(50))),
-                        ),
-                        Container(
-                            child: Text(
-                              'Rollenspielen',
-                              style: Styles.bBold15,
+        body: SafeArea(
+            child: SingleChildScrollView(
+                padding: EdgeInsets.all(10),
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.all(5),
+                              child: SVGBtnIcon(
+                                  svg: SVG.homeIcon,
+                                  onTap: () {
+                                    Navigator.popAndPushNamed(
+                                        context, '/menu-screen');
+                                  },
+                                  bgColor: red,
+                                  splashColor: Colors.red),
+                              decoration: BoxDecoration(
+                                  color: Colors.amber,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
                             ),
-                            margin: EdgeInsets.only(right: 10))
-                      ]),
-                  vSpaceMedium,
-                  cardWhite(context, teks, ''),
-                  vSpaceSmall,
-                  cardOrange(context, content),
-                  vSpaceSmall,
-                  cardWhiteHeader(context, 1)
-                ])));
+                            Container(
+                                child: Text(
+                                  'Rollenspielen',
+                                  style: Styles.bBold15,
+                                ),
+                                margin: EdgeInsets.only(right: 10))
+                          ]),
+                      vSpaceMedium,
+                      cardWhite(context, teks, ''),
+                      vSpaceSmall,
+                      cardOrange(context, content),
+                      vSpaceSmall,
+                      cardWhiteHeader(context, 1)
+                    ]))));
   }
 
   Widget cardWhite(BuildContext context, String teks, String teks2) {

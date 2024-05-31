@@ -18,9 +18,10 @@ Terima kasih telah memilih Denkschnell. Selamat belajar dan semoga sukses!''';
 
     return Scaffold(
         backgroundColor: lightblue,
-        body: CardCustom(
+        body: SafeArea(
+            child: CardCustom(
           parentContext: context,
           teks: content,
-        ));
+        )));
   }
 }

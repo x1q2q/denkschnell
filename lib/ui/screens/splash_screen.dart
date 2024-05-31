@@ -21,8 +21,9 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: lightblue,
-        body: Container(
-            child: Center(
+        body: SafeArea(
+            child: Container(
+                child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -44,6 +45,6 @@ class _SplashScreenState extends State<SplashScreen> {
               Center(),
             ],
           ),
-        )));
+        ))));
   }
 }
