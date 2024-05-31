@@ -26,23 +26,53 @@ class Styles {
         Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
       ]);
 
+  static const xsLabelTxtStyle = TextStyle(
+      fontFamily: 'edo',
+      fontWeight: FontWeight.w600,
+      color: darkbrown,
+      fontSize: 14,
+      shadows: [
+        Shadow(offset: Offset(-1.5, -1.5), color: Colors.white),
+        Shadow(offset: Offset(1.5, -1.5), color: Colors.white),
+        Shadow(offset: Offset(1.5, 1.5), color: Colors.white),
+        Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
+      ]);
+
+  static const excellent = TextStyle(
+      fontFamily: 'edo',
+      fontWeight: FontWeight.w700,
+      color: red,
+      fontSize: 20,
+      shadows: [
+        Shadow(offset: Offset(-1.5, -1.5), color: Colors.white),
+        Shadow(offset: Offset(1.5, -1.5), color: Colors.white),
+        Shadow(offset: Offset(1.5, 1.5), color: Colors.white),
+        Shadow(offset: Offset(-1.5, 1.5), color: Colors.white),
+      ]);
+
   static const titleBarStyle = TextStyle(
       fontFamily: 'Lato',
       fontWeight: FontWeight.w800,
       color: black,
       fontSize: 20);
 
-  static const wBold14 = TextStyle(
+  static const wBold13 = TextStyle(
       fontFamily: 'Lato',
       fontWeight: FontWeight.w700,
       color: Colors.white,
-      fontSize: 14);
+      fontSize: 13);
 
-  static const wBold12 = TextStyle(
+  static const wBold15 = TextStyle(
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.bold,
+      color: Colors.white,
+      fontSize: 15);
+
+  static const wBold10 = TextStyle(
       fontFamily: 'Lato',
       fontWeight: FontWeight.w700,
       color: Colors.white,
-      fontSize: 12);
+      fontSize: 10);
 
   static const bRegular16 = TextStyle(
       fontFamily: 'Lato',
@@ -74,6 +104,16 @@ class Styles {
       spreadRadius: 1,
       color: Colors.black12);
 
+  static ButtonStyle basicBtn = ElevatedButton.styleFrom(
+    elevation: 0.5,
+    textStyle: wBold15,
+    backgroundColor: darkblue,
+    minimumSize: Size(90, 50),
+    padding: EdgeInsets.symmetric(horizontal: 16),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(8)),
+    ),
+  );
   static const snackBarRemBookmark = SnackBar(
     content:
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[

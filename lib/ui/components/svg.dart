@@ -69,6 +69,18 @@ class SVG {
     </svg>
   ''';
 
+  static const String strModalView = '''
+  <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M9 3V5M12 3V5M15 3V5M13 9H9M15 13H9M8.2 21H15.8C16.9201 21 17.4802 21 17.908 20.782C18.2843 20.5903 18.5903 20.2843 18.782 19.908C19 19.4802 19 18.9201 19 17.8V7.2C19 6.0799 19 5.51984 18.782 5.09202C18.5903 4.71569 18.2843 4.40973 17.908 4.21799C17.4802 4 16.9201 4 15.8 4H8.2C7.0799 4 6.51984 4 6.09202 4.21799C5.71569 4.40973 5.40973 4.71569 5.21799 5.09202C5 5.51984 5 6.07989 5 7.2V17.8C5 18.9201 5 19.4802 5.21799 19.908C5.40973 20.2843 5.71569 20.5903 6.09202 20.782C6.51984 21 7.07989 21 8.2 21Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+  ''';
+
+  static const String strModalEdit = '''
+    <svg viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g stroke="#ffffff" stroke-linecap="round" stroke-linejoin="round" stroke-width="12" clip-path="url(#a)"> <path d="M55 139.591 61.173 171l26.432-17.816L136 35.594 103.394 22 55 139.591ZM22 42h72m40 0h36M22 78h57m41 0h50M22 114h41m41 0h66M22 150h34m34 0h32"></path> </g> <defs> <clipPath id="a"> <path fill="#ffffff" d="M0 0h192v192H0z"></path> </clipPath> </defs> </g></svg>
+  ''';
+
+  static const String strSpeaker = '''
+  <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve" fill="#ffffff" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <path fill="#ffffff" d="M59.998,28.001h-7.999c-2.211,0-4,1.789-4,4s1.789,4,4,4h7.999c2.211,0,4-1.789,4-4 S62.209,28.001,59.998,28.001z"></path> <path fill="#ffffff" d="M49.71,19.466l6.929-4c1.914-1.105,2.57-3.551,1.461-5.465c-1.102-1.914-3.547-2.57-5.46-1.465l-6.93,4 c-1.914,1.105-2.57,3.551-1.461,5.464C45.351,19.915,47.796,20.571,49.71,19.466z"></path> <path fill="#ffffff" d="M56.639,48.535l-6.929-3.999c-1.914-1.105-4.355-0.449-5.461,1.464c-1.105,1.914-0.453,4.359,1.461,5.465 l6.93,4c1.913,1.105,4.358,0.449,5.464-1.465S58.553,49.641,56.639,48.535z"></path> <path fill="#ffffff" d="M37.53,0.307c-1.492-0.625-3.211-0.277-4.359,0.867L18.343,16.001H4c-2.211,0-4,1.789-4,4v24 C0,46.211,1.789,48,4,48h14.343l14.828,14.828C33.937,63.594,34.96,64,35.999,64c0.516,0,1.035-0.098,1.531-0.305 c1.496-0.617,2.469-2.078,2.469-3.695V4.001C39.999,2.384,39.026,0.924,37.53,0.307z"></path> </g> </g></svg>
+  ''';
+
   static const String strQuotesTop = '''
   <svg height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="-2.31 -2.31 50.81 50.81" xml:space="preserve" fill="#000000" stroke="#000000" transform="matrix(-1, 0, 0, 1, 0, 0)rotate(0)">
     <g id="SVGRepo_bgCarrier" stroke-width="0"/>
@@ -90,7 +102,6 @@ class SVG {
   static Widget checkIcon = SvgPicture.string(strCheckmarkIcon);
   static Widget crossIcon = SvgPicture.string(strCrossIcon);
   static Widget spiralIcon = SvgPicture.string(strSpiralIcon);
-  static Widget questionsIcon = SvgPicture.string(strQuestionMark);
 
   static Widget quotes1Icon =
       SvgPicture.string(strQuotesTop, width: 80, height: 80);
@@ -100,4 +111,8 @@ class SVG {
       'assets/images/addition-speaker.svg',
       width: 80,
       height: 80);
+
+  static Widget modalEditIcon = SvgPicture.string(strModalEdit);
+  static Widget modalViewIcon = SvgPicture.string(strModalView);
+  static Widget audioIcon = SvgPicture.string(strSpeaker);
 }

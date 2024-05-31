@@ -14,12 +14,10 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
-      // Navigator.pushReplacementNamed(context, '/home-screen');
-      Navigator.pushReplacementNamed(context, '/quiz-screen');
+      Navigator.pushReplacementNamed(context, '/menu-screen');
     });
   }
 
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: lightblue,

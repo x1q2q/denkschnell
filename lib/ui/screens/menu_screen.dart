@@ -10,9 +10,9 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  Menu menu1 = Menu('Landeskunde', 'menu-building.png');
-  Menu menu2 = Menu('Grammatik', 'menu-abc.png');
-  Menu menu3 = Menu('Rollenspielen', 'menu-role.png');
+  Menu menu1 = Menu(1, 'Grammatik', 'menu-abc.png');
+  Menu menu2 = Menu(2, 'Landeskunde', 'menu-building.png');
+  Menu menu3 = Menu(3, 'Rollenspielen', 'menu-role.png');
 
   @override
   Widget build(BuildContext context) {
@@ -34,24 +34,28 @@ class _MenuScreenState extends State<MenuScreen> {
                           gridDelegate:
                               const SliverGridDelegateWithMaxCrossAxisExtent(
                                   maxCrossAxisExtent: 150,
-                                  crossAxisSpacing: 5,
-                                  mainAxisSpacing: 5),
+                                  crossAxisSpacing: 10,
+                                  mainAxisSpacing: 10),
                           itemCount: daftarMenu.length,
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext ctx, index) {
-                            return menuCard(context, daftarMenu[index].nameFile,
-                                daftarMenu[index].title, true);
+                            return menuCard(
+                                context,
+                                daftarMenu[index].id,
+                                daftarMenu[index].nameFile,
+                                daftarMenu[index].title,
+                                true);
                           }),
-                      vSpaceMedium,
-                      menuCard(context, 'spiral.png', 'uber uns', false),
+                      vSpaceLarge,
+                      menuCard(context, 0, 'spiral.png', 'über uns', false),
                     ],
                   )
                 ]))));
   }
 
-  Widget menuCard(
-      BuildContext context, String nameFile, String title, bool menuType) {
+  Widget menuCard(BuildContext context, int id, String nameFile, String title,
+      bool menuType) {
     return SizedBox.fromSize(
         child: Material(
             color: darkblue,
@@ -59,7 +63,17 @@ class _MenuScreenState extends State<MenuScreen> {
             elevation: 0.1,
             child: InkWell(
                 splashColor: darkbrown,
-                onTap: () {},
+                onTap: () {
+                  if (id == 1) {
+                    Navigator.pushNamed(context, '/quiz1-screen');
+                  } else if (id == 2) {
+                    Navigator.pushNamed(context, '/quiz2-screen');
+                  } else if (id == 3) {
+                    Navigator.pushNamed(context, '/quiz3-screen');
+                  } else {
+                    Navigator.pushNamed(context, '/aboutus-screen');
+                  }
+                },
                 borderRadius: BorderRadius.circular(15),
                 child: Container(
                     margin: EdgeInsets.all(5),
@@ -71,12 +85,14 @@ class _MenuScreenState extends State<MenuScreen> {
                       children: <Widget>[
                         Text(title,
                             style:
-                                (menuType) ? Styles.wBold14 : Styles.wBold12),
+                                (menuType) ? Styles.wBold13 : Styles.wBold10),
                         vSpaceXSmall,
                         Container(
+                          margin: EdgeInsets.symmetric(
+                              horizontal: (menuType) ? 0 : 10),
                           child: Image.asset('assets/images/$nameFile'),
-                          height: (menuType) ? 60 : 30,
-                          width: (menuType) ? 60 : 30,
+                          height: (menuType) ? 60 : 35,
+                          width: (menuType) ? 60 : 35,
                         ),
                       ],
                     )))));
@@ -84,7 +100,8 @@ class _MenuScreenState extends State<MenuScreen> {
 }
 
 class Menu {
+  int id;
   String title;
   String nameFile;
-  Menu(this.title, this.nameFile);
+  Menu(this.id, this.title, this.nameFile);
 }

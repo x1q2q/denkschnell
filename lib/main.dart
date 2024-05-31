@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'core/ui_helper.dart';
 import 'ui/screens/about_us_screen.dart';
 import 'ui/screens/guide_screen.dart';
-import 'ui/screens/home_screen.dart';
-import 'ui/screens/menu_screen.dart';
-import 'ui/screens/quiz_screen.dart';
-import 'ui/screens/result_screen.dart';
 import 'ui/screens/splash_screen.dart';
+import 'ui/screens/menu_screen.dart';
+import 'ui/screens/quiz2_screen.dart';
+import 'ui/screens/quiz1_screen.dart';
+import 'ui/screens/quiz3_screen.dart';
+import 'ui/screens/result_screen.dart';
+import 'ui/screens/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -30,10 +32,12 @@ class MainApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/splash-screen': (context) => SplashScreen(),
-        '/home-screen': (context) => const HomeScreen(),
+        '/home-screen': (context) => HomeScreen(),
         '/menu-screen': (context) => MenuScreen(),
         '/guide-screen': (context) => const GuideScreen(),
-        '/quiz-screen': (context) => QuizScreen(),
+        '/quiz1-screen': (context) => Quiz1Screen(),
+        '/quiz2-screen': (context) => Quiz2Screen(),
+        '/quiz3-screen': (context) => Quiz3Screen(),
         '/result-screen': (context) => ResultScreen(),
         '/aboutus-screen': (context) => const AboutUsScreen(),
       },

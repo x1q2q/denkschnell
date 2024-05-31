@@ -3,23 +3,21 @@ import '../../core/styles.dart';
 import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
-import '../../ui/components/card_custom.dart';
 
-class QuizScreen extends StatefulWidget {
-  QuizScreen({Key? key}) : super(key: key);
+class Quiz1Screen extends StatefulWidget {
+  Quiz1Screen({Key? key}) : super(key: key);
 
   @override
-  State<QuizScreen> createState() => _QuizScreenState();
+  State<Quiz1Screen> createState() => _Quiz1ScreenState();
 }
 
-class _QuizScreenState extends State<QuizScreen> {
+class _Quiz1ScreenState extends State<Quiz1Screen> {
   @override
   Widget build(BuildContext context) {
     String content = '''
     A. gehe
     B. gehen
-    C. geht
-  ''';
+    C. geht''';
     return Scaffold(
         backgroundColor: lightblue,
         body: SingleChildScrollView(
@@ -34,7 +32,10 @@ class _QuizScreenState extends State<QuizScreen> {
                           padding: EdgeInsets.all(5),
                           child: SVGBtnIcon(
                               svg: SVG.homeIcon,
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.popAndPushNamed(
+                                    context, '/menu-screen');
+                              },
                               bgColor: red,
                               splashColor: Colors.red),
                           decoration: BoxDecoration(
@@ -47,7 +48,7 @@ class _QuizScreenState extends State<QuizScreen> {
                               'Grammatik',
                               style: Styles.bBold15,
                             ),
-                            margin: EdgeInsets.only(right: 20))
+                            margin: EdgeInsets.only(right: 10))
                       ]),
                   vSpaceMedium,
                   cardWhite(
@@ -70,15 +71,15 @@ class _QuizScreenState extends State<QuizScreen> {
           decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.all(Radius.circular(20))),
-          width: (screenSizes.width / 2) + screenSizes.width / 3,
+          width: screenSizes.width - (screenSizes.width / 8),
           child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(
+                Center(
+                    child: Text(
                   teks,
                   style: Styles.bBold12,
-                  textAlign: TextAlign.center,
-                ),
+                )),
                 (teks2.isNotEmpty)
                     ? Container(
                         margin: EdgeInsets.only(top: 10),
@@ -135,7 +136,9 @@ class _QuizScreenState extends State<QuizScreen> {
                       svg: SVG.checkIcon,
                       bgColor: green,
                       splashColor: Colors.teal,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushNamed(context, '/result-screen');
+                      },
                     ),
                   ],
                 )

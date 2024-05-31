@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import '../../core/ui_helper.dart';
-import '../../core/styles.dart';
 import '../components/card_custom.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  HomeScreen({Key? key}) : super(key: key);
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     String content =
         '''Selamat datang di Denkschnell! Aplikasi ini dirancang untuk membantu Anda meningkatkan keterampilan berbicara dalam bahasa Jerman dengan cara yang interaktif dan menyenangkan.
