@@ -12,15 +12,8 @@ class Quiz3Screen extends StatefulWidget {
 }
 
 class _Quiz3ScreenState extends State<Quiz3Screen> {
-  String content = '''
-  Hallo, Guten Tag! Ich heiße ... & Und wie heißt du?
-  Mein Name ist ...
-  Woher kommst du?
-  Ich komme aus ...
-  Was machst du beruflich/studienmäßig?
-  Ich studiere in .../arbeitet als ...
-  Schön, Sie kennenzulernen!
-  Freut mich, dich kennenzulernen!''';
+  String content =
+      '• Hallo, Guten Tag! Ich heiße ... & Und wie heißt du?-• Mein Name ist ... -• Woher kommst du?-• Ich komme aus ...-• Was machst du beruflich/studienmäßig?-• Ich studiere in .../arbeitet als ...-• Schön, Sie kennenzulernen!-• Freut mich, dich kennenzulernen!';
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +56,7 @@ class _Quiz3ScreenState extends State<Quiz3Screen> {
                       vSpaceMedium,
                       cardWhite(context, teks, ''),
                       vSpaceSmall,
-                      cardOrange(context, content),
+                      cardOrange(context, content.replaceAll('-', '\n')),
                       vSpaceSmall,
                       cardWhiteHeader(context, 1)
                     ]))));

@@ -94,8 +94,9 @@ class Styles {
 
   static const bRegular12 = TextStyle(
       fontFamily: 'Lato',
-      fontWeight: FontWeight.normal,
+      fontWeight: FontWeight.bold,
       color: black,
+      height: 1.5,
       fontSize: 12);
 
   static const boxCardShdStyle = BoxShadow(
@@ -108,10 +109,10 @@ class Styles {
     elevation: 0.5,
     textStyle: wBold15,
     backgroundColor: darkblue,
-    minimumSize: Size(90, 50),
+    minimumSize: Size(120, 50),
     padding: EdgeInsets.symmetric(horizontal: 16),
     shape: const RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(8)),
+      borderRadius: BorderRadius.all(Radius.circular(30)),
     ),
   );
   static const snackBarRemBookmark = SnackBar(

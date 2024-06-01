@@ -5,18 +5,27 @@ import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
 import '../../ui/components/card_custom.dart';
 
-class GuideScreen extends StatelessWidget {
-  const GuideScreen({Key? key}) : super(key: key);
+class GuideScreen extends StatefulWidget {
+  final String quizId;
+  final String title;
+  final String description;
+  final String file;
+  GuideScreen(
+      {Key? key,
+      required this.quizId,
+      required this.title,
+      required this.description,
+      required this.file})
+      : super(key: key);
 
   @override
+  State<GuideScreen> createState() => _GuideScreenState();
+}
+
+class _GuideScreenState extends State<GuideScreen> {
+  @override
   Widget build(BuildContext context) {
-    String content = '''
-    Permainan ini melibatkan dua orang: satu sebagai pemberi soal dan satu lagi sebagai penjawab soal. 
-Pemberi soal akan menyebutkan soal dan pilihan jawabannya. 
-Penjawab soal harus segera memilih jawaban yang dianggap benar dan cepat. 
-Jika jawabannya benar, pemberi soal menekan tombol "Benar". Jika salah, tombol "Salah" ditekan, lalu hitunglah jumlah benarnya dan sampaikanlah kepada temanmu.
-Terdapat 5 soal, pemain dapat memilih untuk melanjutkan dengan menekan tombol "Lanjut" atau berhenti dengan menekan tombol "Home".
-  ''';
+    String content = widget.description;
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -35,7 +44,10 @@ Terdapat 5 soal, pemain dapat memilih untuk melanjutkan dengan menekan tombol "L
                               padding: EdgeInsets.all(5),
                               child: SVGBtnIcon(
                                   svg: SVG.homeIcon,
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.popAndPushNamed(
+                                        context, '/menu-screen');
+                                  },
                                   bgColor: red,
                                   splashColor: Colors.red),
                               decoration: BoxDecoration(
@@ -45,22 +57,34 @@ Terdapat 5 soal, pemain dapat memilih untuk melanjutkan dengan menekan tombol "L
                             ),
                             Container(
                                 child: Text(
-                                  'Landeskunde',
+                                  widget.title,
                                   style: Styles.bBold15,
                                 ),
                                 margin: EdgeInsets.only(right: 20))
                           ]),
-                      Image.asset('assets/images/menu-building.png',
+                      Image.asset('assets/images/${widget.file}',
                           width: 60, height: 60),
                       vSpaceSmall,
-                      Text('Petunjuk Penggunaan', style: Styles.titleBarStyle),
+                      const Text('Petunjuk Penggunaan',
+                          style: Styles.titleBarStyle),
                       vSpaceSmall,
-                      CardCustom(parentContext: context, teks: content),
+                      CardCustom(
+                          parentContext: context,
+                          teks: content.replaceAll("-", "\n"),
+                          isCenter: false),
                       vSpaceSmall,
                       SVGBtnIcon(
                           svg: SVG.nextIcon,
                           bgColor: green,
-                          onTap: () {},
+                          onTap: () {
+                            if (widget.quizId == '1') {
+                              Navigator.pushNamed(context, '/quiz1-screen');
+                            } else if (widget.quizId == '2') {
+                              Navigator.pushNamed(context, '/quiz2-screen');
+                            } else if (widget.quizId == '3') {
+                              Navigator.pushNamed(context, '/quiz3-screen');
+                            }
+                          },
                           splashColor: Colors.teal),
                       vSpaceSmall,
                       Text('Denkschnell', style: Styles.sLabelTxtStyle)

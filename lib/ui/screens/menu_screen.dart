@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../core/ui_helper.dart';
 import '../../core/styles.dart';
+import '../../providers/services/database_service.dart';
+import 'guide_screen.dart';
 
 class MenuScreen extends StatefulWidget {
   MenuScreen({Key? key}) : super(key: key);
@@ -10,13 +12,30 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  Menu menu1 = Menu(1, 'Grammatik', 'menu-abc.png');
-  Menu menu2 = Menu(2, 'Landeskunde', 'menu-building.png');
-  Menu menu3 = Menu(3, 'Rollenspielen', 'menu-role.png');
+  DatabaseService dbServ = DatabaseService();
+  bool _isLoading = true;
+  @override
+  void initState() {
+    super.initState();
+    _getData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  List? menus;
+  _getData() async {
+    _isLoading = true;
+    menus = await dbServ.getAllData('quiz');
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    List<Menu> daftarMenu = [menu1, menu2, menu3];
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -31,32 +50,41 @@ class _MenuScreenState extends State<MenuScreen> {
                       vSpaceMedium,
                       Column(
                         children: <Widget>[
-                          GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithMaxCrossAxisExtent(
-                                      maxCrossAxisExtent: 150,
-                                      crossAxisSpacing: 10,
-                                      mainAxisSpacing: 10),
-                              itemCount: daftarMenu.length,
-                              shrinkWrap: true,
-                              physics: const NeverScrollableScrollPhysics(),
-                              itemBuilder: (BuildContext ctx, index) {
-                                return menuCard(
-                                    context,
-                                    daftarMenu[index].id,
-                                    daftarMenu[index].nameFile,
-                                    daftarMenu[index].title,
-                                    true);
-                              }),
+                          _isLoading
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                      color: darkblue))
+                              : menus!.isEmpty
+                                  ? Text('kosong...')
+                                  : GridView.builder(
+                                      gridDelegate:
+                                          const SliverGridDelegateWithMaxCrossAxisExtent(
+                                              maxCrossAxisExtent: 150,
+                                              crossAxisSpacing: 10,
+                                              mainAxisSpacing: 10),
+                                      itemCount: menus?.length,
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemBuilder: (BuildContext ctx, index) {
+                                        return menuCard(
+                                            context,
+                                            menus?[index]['id'],
+                                            menus?[index]['file'] + '.png',
+                                            menus?[index]['title'],
+                                            menus?[index]['description'],
+                                            true);
+                                      }),
                           vSpaceLarge,
-                          menuCard(context, 0, 'spiral.png', 'über uns', false),
+                          menuCard(context, '0', 'spiral.png', 'über uns', '',
+                              false),
                         ],
                       )
                     ])))));
   }
 
-  Widget menuCard(BuildContext context, int id, String nameFile, String title,
-      bool menuType) {
+  Widget menuCard(BuildContext context, String id, String nameFile,
+      String title, String desc, bool menuType) {
     return SizedBox.fromSize(
         child: Material(
             color: darkblue,
@@ -65,12 +93,15 @@ class _MenuScreenState extends State<MenuScreen> {
             child: InkWell(
                 splashColor: darkbrown,
                 onTap: () {
-                  if (id == 1) {
-                    Navigator.pushNamed(context, '/quiz1-screen');
-                  } else if (id == 2) {
-                    Navigator.pushNamed(context, '/quiz2-screen');
-                  } else if (id == 3) {
-                    Navigator.pushNamed(context, '/quiz3-screen');
+                  if (id != '0') {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GuideScreen(
+                                quizId: id,
+                                title: title,
+                                file: nameFile,
+                                description: desc)));
                   } else {
                     Navigator.pushNamed(context, '/aboutus-screen');
                   }
@@ -98,11 +129,4 @@ class _MenuScreenState extends State<MenuScreen> {
                       ],
                     )))));
   }
-}
-
-class Menu {
-  int id;
-  String title;
-  String nameFile;
-  Menu(this.id, this.title, this.nameFile);
 }

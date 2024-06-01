@@ -9,7 +9,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  sqflite: ^2.3.3+1
+  sqflite: ^2.3.2
   shimmer: ^3.0.0
   just_audio: ^0.9.36
   flutter_svg: ^2.0.7
@@ -35,3 +35,5 @@ flutter:
         - asset: assets/fonts/edo.ttf
   assets:
     - assets/images/
+    - assets/audios/
+    - assets/quiz.db

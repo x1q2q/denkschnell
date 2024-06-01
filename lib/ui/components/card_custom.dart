@@ -6,20 +6,23 @@ import '../../core/styles.dart';
 class CardCustom extends StatelessWidget {
   final BuildContext parentContext;
   final String teks;
+  final bool isCenter;
 
-  const CardCustom({Key? key, required this.parentContext, required this.teks})
+  const CardCustom(
+      {Key? key,
+      required this.parentContext,
+      required this.teks,
+      required this.isCenter})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     var screenSizes = MediaQuery.of(parentContext).size;
-    return Center(
-        child: Stack(
-      alignment: Alignment.center,
+    return Stack(
       children: <Widget>[
         Container(
           margin: EdgeInsets.symmetric(vertical: 30),
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
+          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
           decoration: BoxDecoration(
               color: lightbrown,
               borderRadius: BorderRadius.all(Radius.circular(45)),
@@ -28,12 +31,12 @@ class CardCustom extends StatelessWidget {
           child: Text(
             teks,
             style: Styles.bRegular12,
-            textAlign: TextAlign.center,
+            textAlign: (isCenter) ? TextAlign.center : TextAlign.left,
           ),
         ),
         Positioned(child: SVG.quotes1Icon, left: 10, top: -5),
         Positioned(child: SVG.quotes2Icon, right: 10, bottom: -5),
       ],
-    ));
+    );
   }
 }
