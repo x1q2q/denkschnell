@@ -3,7 +3,7 @@ import '../../core/ui_helper.dart';
 import '../../core/styles.dart';
 import '../components/svg_btn_icon.dart';
 import '../components/svg.dart';
-import '../../providers/services/database_service.dart';
+import '../../providers/helpers/database_helper.dart';
 
 class AboutUsScreen extends StatefulWidget {
   AboutUsScreen({Key? key}) : super(key: key);
@@ -13,7 +13,7 @@ class AboutUsScreen extends StatefulWidget {
 }
 
 class _AboutUsScreenState extends State<AboutUsScreen> {
-  DatabaseService dbServ = DatabaseService();
+  DatabaseHelper dbServ = DatabaseHelper();
   bool _isLoading = true;
   @override
   void initState() {

@@ -4,6 +4,7 @@ import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
 import '../../ui/components/card_custom.dart';
+import '../../core/string_extension.dart';
 
 class GuideScreen extends StatefulWidget {
   final String quizId;
@@ -57,7 +58,7 @@ class _GuideScreenState extends State<GuideScreen> {
                             ),
                             Container(
                                 child: Text(
-                                  widget.title,
+                                  widget.title.capitalize(),
                                   style: Styles.bBold15,
                                 ),
                                 margin: EdgeInsets.only(right: 20))

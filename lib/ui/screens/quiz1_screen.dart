@@ -1,8 +1,12 @@
+import 'package:denkschnell/ui/screens/result_screen.dart';
 import 'package:flutter/material.dart';
 import '../../core/styles.dart';
 import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
+import 'package:provider/provider.dart';
+import '../../providers/helpers/question_provider.dart';
+import '../../core/string_extension.dart';
 
 class Quiz1Screen extends StatefulWidget {
   Quiz1Screen({Key? key}) : super(key: key);
@@ -11,13 +15,28 @@ class Quiz1Screen extends StatefulWidget {
   State<Quiz1Screen> createState() => _Quiz1ScreenState();
 }
 
-class _Quiz1ScreenState extends State<Quiz1Screen> {
+class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
+  String teksQuestion = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+      qProvider.fetchQuestion('multiple_choice', 'level1', true);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
-    String content = '''
-    A. gehe
-    B. gehen
-    C. geht''';
+    final qProvider = Provider.of<QuestionProvider>(context);
+    var screenSizes = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -33,7 +52,11 @@ class _Quiz1ScreenState extends State<Quiz1Screen> {
                               padding: EdgeInsets.all(5),
                               child: SVGBtnIcon(
                                   svg: SVG.homeIcon,
-                                  onTap: () {
+                                  onTap: () async {
+                                    final provider =
+                                        Provider.of<QuestionProvider>(context,
+                                            listen: false);
+                                    await provider.refreshIDsQuestion();
                                     Navigator.popAndPushNamed(
                                         context, '/menu-screen');
                                   },
@@ -52,49 +75,59 @@ class _Quiz1ScreenState extends State<Quiz1Screen> {
                                 margin: EdgeInsets.only(right: 10))
                           ]),
                       vSpaceMedium,
-                      cardWhite(
-                          context,
-                          'Welches Verb passt hier? Ich ___ gerne spazieren.',
-                          content),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 0),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            width: screenSizes.width - (screenSizes.width / 8),
+                            child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Center(
+                                      child: Text(
+                                    qProvider.question?.questionText ??
+                                        teksQuestion,
+                                    style: Styles.bBold12,
+                                  )),
+                                  vSpaceXSmall,
+                                  ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        qProvider.question?.options!.length ??
+                                            0,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      List<String> char = ['A', 'B', 'C'];
+                                      String option = qProvider.question
+                                              ?.options![index].optionText ??
+                                          teksQuestion;
+                                      return Container(
+                                          margin: EdgeInsets.only(top: 10),
+                                          child: Text(
+                                            '${char[index]}. $option',
+                                            style: Styles.bBold12,
+                                            textAlign: TextAlign.left,
+                                          ));
+                                    },
+                                  ),
+                                ]),
+                          ),
+                          Positioned(
+                              child: SVG.speakerIcon, left: -10, top: -30),
+                        ],
+                      ),
                       vSpaceXSmall,
                       cardWhiteOutline(context, 1)
                     ]))));
-  }
-
-  Widget cardWhite(BuildContext context, String teks, String teks2) {
-    var screenSizes = MediaQuery.of(context).size;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          width: screenSizes.width - (screenSizes.width / 8),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Center(
-                    child: Text(
-                  teks,
-                  style: Styles.bBold12,
-                )),
-                (teks2.isNotEmpty)
-                    ? Container(
-                        margin: EdgeInsets.only(top: 10),
-                        child: Text(
-                          teks2,
-                          style: Styles.bBold12,
-                          textAlign: TextAlign.left,
-                        ))
-                    : Center()
-              ]),
-        ),
-        Positioned(child: SVG.speakerIcon, left: -10, top: -30),
-      ],
-    );
   }
 
   Widget cardWhiteOutline(BuildContext context, int questionId) {
@@ -138,7 +171,10 @@ class _Quiz1ScreenState extends State<Quiz1Screen> {
                       bgColor: green,
                       splashColor: Colors.teal,
                       onTap: () {
-                        Navigator.pushNamed(context, '/result-screen');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ResultScreen()));
                       },
                     ),
                   ],

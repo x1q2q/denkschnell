@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import '../../core/ui_helper.dart';
 import '../../core/styles.dart';
 import '../components/card_custom.dart';
-import '../../providers/services/database_service.dart';
+import '../../providers/helpers/database_helper.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -12,7 +12,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  DatabaseService dbServ = DatabaseService();
+  DatabaseHelper dbServ = DatabaseHelper();
   bool _isLoading = true;
   @override
   void initState() {

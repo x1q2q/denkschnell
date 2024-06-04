@@ -3,6 +3,10 @@ import '../../core/styles.dart';
 import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
+import 'package:provider/provider.dart';
+import '../../providers/helpers/question_provider.dart';
+import '../../providers/helpers/audio_provider.dart';
+import 'audio_sheet.dart';
 
 class Quiz3Screen extends StatefulWidget {
   Quiz3Screen({Key? key}) : super(key: key);
@@ -11,19 +15,34 @@ class Quiz3Screen extends StatefulWidget {
   State<Quiz3Screen> createState() => _Quiz3ScreenState();
 }
 
-class _Quiz3ScreenState extends State<Quiz3Screen> {
-  String content =
-      '• Hallo, Guten Tag! Ich heiße ... & Und wie heißt du?-• Mein Name ist ... -• Woher kommst du?-• Ich komme aus ...-• Was machst du beruflich/studienmäßig?-• Ich studiere in .../arbeitet als ...-• Schön, Sie kennenzulernen!-• Freut mich, dich kennenzulernen!';
+class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
+  String teksQuestion = '';
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+      qProvider.fetchQuestion('audio_text', 'level1', false);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    String teks = '''
-  Führen Sie einen Dialog über das Kennenlernen mit Redemitteln wie im folgenden Beispiel!
- Sie können auch mit anderen Redemitteln kreativ sein!''';
+    final qProvider = Provider.of<QuestionProvider>(context);
+    var screenSizes = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
             child: SingleChildScrollView(
+                physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.all(10),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -35,7 +54,15 @@ class _Quiz3ScreenState extends State<Quiz3Screen> {
                               padding: EdgeInsets.all(5),
                               child: SVGBtnIcon(
                                   svg: SVG.homeIcon,
-                                  onTap: () {
+                                  onTap: () async {
+                                    final provider =
+                                        Provider.of<QuestionProvider>(context,
+                                            listen: false);
+                                    await provider.refreshIDsQuestion();
+                                    final aProvider =
+                                        Provider.of<AudioProvider>(context,
+                                            listen: false);
+                                    aProvider.stop();
                                     Navigator.popAndPushNamed(
                                         context, '/menu-screen');
                                   },
@@ -54,38 +81,38 @@ class _Quiz3ScreenState extends State<Quiz3Screen> {
                                 margin: EdgeInsets.only(right: 10))
                           ]),
                       vSpaceMedium,
-                      cardWhite(context, teks, ''),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.only(top: 20),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            width: screenSizes.width - (screenSizes.width / 8),
+                            child: Text(
+                              qProvider.question?.questionText ?? teksQuestion,
+                              style: Styles.bBold12,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          Positioned(
+                              child: SVG.speakerIcon, left: -10, top: -30),
+                        ],
+                      ),
                       vSpaceSmall,
-                      cardOrange(context, content.replaceAll('-', '\n')),
+                      cardOrange(context,
+                          qProvider.question?.correctAnswer ?? teksQuestion),
                       vSpaceSmall,
-                      cardWhiteHeader(context, 1)
+                      cardWhiteHeader(
+                          context, qProvider.question?.options ?? [])
                     ]))));
   }
 
-  Widget cardWhite(BuildContext context, String teks, String teks2) {
-    var screenSizes = MediaQuery.of(context).size;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.only(top: 20),
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          width: screenSizes.width - (screenSizes.width / 8),
-          child: Text(
-            teks,
-            style: Styles.bBold12,
-            textAlign: TextAlign.center,
-          ),
-        ),
-        Positioned(child: SVG.speakerIcon, left: -10, top: -30),
-      ],
-    );
-  }
-
-  Widget cardOrange(BuildContext context, String teks) {
+  Widget cardOrange(BuildContext context, String? teks) {
     var screenSizes = MediaQuery.of(context).size;
     return Container(
         padding: EdgeInsets.all(10),
@@ -94,13 +121,13 @@ class _Quiz3ScreenState extends State<Quiz3Screen> {
             borderRadius: BorderRadius.all(Radius.circular(10))),
         width: screenSizes.width - (screenSizes.width / 6),
         child: Text(
-          teks,
+          teks!.replaceAll('-', '\n'),
           style: Styles.bBold12,
           textAlign: TextAlign.left,
         ));
   }
 
-  Widget cardWhiteHeader(BuildContext context, int questionId) {
+  Widget cardWhiteHeader(BuildContext context, List teksAudio) {
     var screenSizes = MediaQuery.of(context).size;
     return Center(
         child: Container(
@@ -138,106 +165,28 @@ class _Quiz3ScreenState extends State<Quiz3Screen> {
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(32))),
                         context: context,
-                        builder: (BuildContext context) => modalSheet(context));
+                        builder: (BuildContext context) {
+                          return ModalSheet(
+                              teksAudio: teksAudio[0].optionText!);
+                        });
                   },
                 ),
                 SVGBtnIcon(
                   svg: SVG.nextIcon,
                   bgColor: green,
                   splashColor: Colors.teal,
-                  onTap: () {},
+                  onTap: () async {
+                    final provider =
+                        Provider.of<QuestionProvider>(context, listen: false);
+                    await provider.fetchQuestion('audio_text', 'level1', true);
+                    final aProvider =
+                        Provider.of<AudioProvider>(context, listen: false);
+                    aProvider.stop();
+                  },
                 ),
               ],
             )),
       ]),
     ));
-  }
-
-  Widget modalSheet(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      height: 180,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Container(
-                padding: EdgeInsets.symmetric(horizontal: 5),
-                width: double.infinity,
-                height: 60,
-                decoration: BoxDecoration(
-                    border: Border.all(color: greyv2, width: 2),
-                    borderRadius: BorderRadius.circular(50)),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Padding(
-                        padding: EdgeInsets.only(left: 15),
-                        child: Text(
-                          'AUDIO 1',
-                          style: TextStyle(
-                              color: greyv2, fontWeight: FontWeight.normal),
-                        )),
-                    SVGBtnIcon(
-                        svg: Icon(
-                          Icons.play_arrow,
-                          color: Colors.white,
-                          size: 30,
-                        ),
-                        bgColor: greyv2,
-                        onTap: () {},
-                        splashColor: Colors.grey)
-                  ],
-                )),
-            vSpaceSmall,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Say Something ... ',
-                  style:
-                      TextStyle(color: greyv2, fontWeight: FontWeight.normal),
-                ),
-                SVGBtnIcon(
-                    svg: Icon(Icons.mic, color: Colors.white, size: 30),
-                    bgColor: red,
-                    onTap: () {},
-                    splashColor: Colors.redAccent)
-              ],
-            )
-            // Container(
-            //     padding: EdgeInsets.symmetric(horizontal: 5),
-            //     width: double.infinity,
-            //     height: 60,
-            //     decoration: BoxDecoration(
-            //         border: Border.all(color: greyv2, width: 2),
-            //         borderRadius: BorderRadius.circular(50)),
-            //     child: Row(
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: <Widget>[
-            //         Padding(
-            //             padding: EdgeInsets.only(left: 15),
-            //             child: Text(
-            //               'YOUR SUBMISSION',
-            //               style: TextStyle(
-            //                   color: greyv2, fontWeight: FontWeight.normal),
-            //             )),
-            //         SVGBtnIcon(
-            //             svg: Icon(
-            //               Icons.play_arrow,
-            //               color: Colors.white,
-            //               size: 30,
-            //             ),
-            //             bgColor: greyv2,
-            //             onTap: () {},
-            //             splashColor: Colors.grey)
-            //       ],
-            //     )),
-          ]),
-    );
   }
 }

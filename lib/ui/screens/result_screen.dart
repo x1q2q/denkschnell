@@ -3,6 +3,8 @@ import '../../core/styles.dart';
 import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
+import 'package:provider/provider.dart';
+import '../../providers/helpers/question_provider.dart';
 
 class ResultScreen extends StatefulWidget {
   ResultScreen({Key? key}) : super(key: key);
@@ -11,7 +13,18 @@ class ResultScreen extends StatefulWidget {
   State<ResultScreen> createState() => _ResultScreenState();
 }
 
-class _ResultScreenState extends State<ResultScreen> {
+class _ResultScreenState extends State<ResultScreen>
+    with WidgetInspectorService {
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -85,7 +98,10 @@ class _ResultScreenState extends State<ResultScreen> {
                   svg: SVG.homeIcon,
                   bgColor: red,
                   splashColor: Colors.redAccent,
-                  onTap: () {
+                  onTap: () async {
+                    final provider =
+                        Provider.of<QuestionProvider>(context, listen: false);
+                    await provider.refreshIDsQuestion();
                     Navigator.popAndPushNamed(context, '/menu-screen');
                   },
                 ),
@@ -93,7 +109,9 @@ class _ResultScreenState extends State<ResultScreen> {
                   svg: SVG.nextIcon,
                   bgColor: green,
                   splashColor: Colors.teal,
-                  onTap: () {},
+                  onTap: () {
+                    Navigator.pushNamed(context, '/quiz1-screen');
+                  },
                 ),
               ],
             )),

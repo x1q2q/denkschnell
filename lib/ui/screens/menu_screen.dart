@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../core/ui_helper.dart';
 import '../../core/styles.dart';
-import '../../providers/services/database_service.dart';
+import '../../providers/helpers/database_helper.dart';
 import 'guide_screen.dart';
+import '../../core/string_extension.dart';
 
 class MenuScreen extends StatefulWidget {
   MenuScreen({Key? key}) : super(key: key);
@@ -12,7 +13,7 @@ class MenuScreen extends StatefulWidget {
 }
 
 class _MenuScreenState extends State<MenuScreen> {
-  DatabaseService dbServ = DatabaseService();
+  DatabaseHelper dbServ = DatabaseHelper();
   bool _isLoading = true;
   @override
   void initState() {
@@ -83,6 +84,10 @@ class _MenuScreenState extends State<MenuScreen> {
                     ])))));
   }
 
+  // String capitalize(String teks) {
+  //   return "${teks[0].toUpperCase()}${teks.substring(1).toLowerCase()}";
+  // }
+
   Widget menuCard(BuildContext context, String id, String nameFile,
       String title, String desc, bool menuType) {
     return SizedBox.fromSize(
@@ -115,7 +120,7 @@ class _MenuScreenState extends State<MenuScreen> {
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text(title,
+                        Text(title.capitalize(),
                             style:
                                 (menuType) ? Styles.wBold13 : Styles.wBold10),
                         vSpaceXSmall,

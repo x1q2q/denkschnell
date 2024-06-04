@@ -3,6 +3,8 @@ import '../../core/styles.dart';
 import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
+import 'package:provider/provider.dart';
+import '../../providers/helpers/question_provider.dart';
 
 class Quiz2Screen extends StatefulWidget {
   Quiz2Screen({Key? key}) : super(key: key);
@@ -11,9 +13,28 @@ class Quiz2Screen extends StatefulWidget {
   State<Quiz2Screen> createState() => _Quiz2ScreenState();
 }
 
-class _Quiz2ScreenState extends State<Quiz2Screen> {
+class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
+  String teksQuestion = '';
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+      qProvider.fetchQuestion('essay_text', 'level1', false);
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    final qProvider = Provider.of<QuestionProvider>(context);
+    var screenSizes = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -29,7 +50,11 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
                               padding: EdgeInsets.all(5),
                               child: SVGBtnIcon(
                                   svg: SVG.homeIcon,
-                                  onTap: () {
+                                  onTap: () async {
+                                    final provider =
+                                        Provider.of<QuestionProvider>(context,
+                                            listen: false);
+                                    await provider.refreshIDsQuestion();
                                     Navigator.popAndPushNamed(
                                         context, '/menu-screen');
                                   },
@@ -48,48 +73,39 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
                                 margin: EdgeInsets.only(right: 10))
                           ]),
                       vSpaceMedium,
-                      cardWhite(context,
-                          'Erwähnen Sie 10 Bundesländer in Deutschland!', ''),
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: <Widget>[
+                          Container(
+                            margin: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 0),
+                            padding: EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 10),
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            width: screenSizes.width - (screenSizes.width / 8),
+                            child: Column(children: <Widget>[
+                              Text(
+                                qProvider.question?.questionText ??
+                                    teksQuestion,
+                                style: Styles.bBold12,
+                                textAlign: TextAlign.center,
+                              )
+                            ]),
+                          ),
+                          Positioned(
+                              child: SVG.speakerIcon, left: -10, top: -30),
+                        ],
+                      ),
                       vSpaceXSmall,
-                      cardWhiteHeader(context, 1)
+                      cardWhiteHeader(context,
+                          qProvider.question?.correctAnswer ?? teksQuestion)
                     ]))));
   }
 
-  Widget cardWhite(BuildContext context, String teks, String teks2) {
-    var screenSizes = MediaQuery.of(context).size;
-    return Stack(
-      clipBehavior: Clip.none,
-      children: <Widget>[
-        Container(
-          margin: EdgeInsets.symmetric(vertical: 20, horizontal: 0),
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 10),
-          decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(Radius.circular(20))),
-          width: screenSizes.width - (screenSizes.width / 8),
-          child: Column(children: <Widget>[
-            Text(
-              teks,
-              style: Styles.bBold12,
-              textAlign: TextAlign.center,
-            ),
-            (teks2.isNotEmpty)
-                ? Container(
-                    margin: EdgeInsets.only(top: 10),
-                    child: Text(
-                      teks2,
-                      style: Styles.bBold12,
-                      textAlign: TextAlign.left,
-                    ))
-                : Center()
-          ]),
-        ),
-        Positioned(child: SVG.speakerIcon, left: -10, top: -30),
-      ],
-    );
-  }
-
-  Widget cardWhiteHeader(BuildContext context, int questionId) {
+  Widget cardWhiteHeader(BuildContext context, String teks) {
     var screenSizes = MediaQuery.of(context).size;
     return Center(
         child: Container(
@@ -132,14 +148,18 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
                             padding: EdgeInsets.only(
                                 bottom:
                                     MediaQuery.of(context).viewInsets.bottom),
-                            child: modalSheet(context)));
+                            child: modalSheet(context, teks)));
                   },
                 ),
                 SVGBtnIcon(
                   svg: SVG.nextIcon,
                   bgColor: green,
                   splashColor: Colors.teal,
-                  onTap: () {},
+                  onTap: () async {
+                    final provider =
+                        Provider.of<QuestionProvider>(context, listen: false);
+                    await provider.fetchQuestion('essay_text', 'level1', true);
+                  },
                 ),
               ],
             )),
@@ -147,7 +167,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
     ));
   }
 
-  Widget modalSheet(BuildContext context) {
+  Widget modalSheet(BuildContext context, String teks) {
     return Container(
       padding: EdgeInsets.all(20),
       height: 280,
@@ -162,7 +182,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> {
               child: TextField(
                 maxLines: 5,
                 decoration: InputDecoration(
-                    hintText: "isi jawaban",
+                    hintText: teks,
                     hintStyle:
                         TextStyle(color: greyv2, fontWeight: FontWeight.normal),
                     focusedBorder: OutlineInputBorder(
