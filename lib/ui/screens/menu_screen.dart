@@ -27,9 +27,12 @@ class _MenuScreenState extends State<MenuScreen> {
   }
 
   List? menus;
+  List? answers;
   _getData() async {
     _isLoading = true;
     menus = await dbServ.getAllData('quiz');
+    answers = await dbServ.getAllData('answers');
+    print(answers);
     setState(() {
       _isLoading = false;
     });
@@ -84,10 +87,6 @@ class _MenuScreenState extends State<MenuScreen> {
                     ])))));
   }
 
-  // String capitalize(String teks) {
-  //   return "${teks[0].toUpperCase()}${teks.substring(1).toLowerCase()}";
-  // }
-
   Widget menuCard(BuildContext context, String id, String nameFile,
       String title, String desc, bool menuType) {
     return SizedBox.fromSize(
@@ -108,7 +107,8 @@ class _MenuScreenState extends State<MenuScreen> {
                                 file: nameFile,
                                 description: desc)));
                   } else {
-                    Navigator.pushNamed(context, '/aboutus-screen');
+                    // Navigator.pushNamed(context, '/aboutus-screen');
+                    dbServ.deleteAll('answers');
                   }
                 },
                 borderRadius: BorderRadius.circular(15),

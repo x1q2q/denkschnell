@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'database_helper.dart';
 import '../models/question.dart';
+import '../models/answer.dart';
 
 class QuestionProvider with ChangeNotifier {
   List<int> _idsQuestion = [];
   List<int> get idQuestions => _idsQuestion;
+  List<int> usedIdsQuestion = [];
   Question? _question;
   Question? get question => _question;
-  List<int> usedIdsQuestion = [];
+  Answer? _answer;
+  Answer? get answer => _answer;
 
   Future<void> fetchIDQuestions(String typeQuestions, String levelType) async {
     _idsQuestion = await DatabaseHelper()
@@ -34,11 +37,19 @@ class QuestionProvider with ChangeNotifier {
       // _question = await DatabaseHelper()
       //     .retrieveQuestionByID('questions', _idsQuestion[0]);
     } else if (_idsQuestion.isNotEmpty) {
-      _question = await DatabaseHelper()
-          .retrieveQuestionByID('questions', _idsQuestion[indexes]);
+      _answer =
+          await DatabaseHelper().retrieveAnswerByID(_idsQuestion[indexes]);
+      _question =
+          await DatabaseHelper().retrieveQuestionByID(_idsQuestion[indexes]);
+
       usedIdsQuestion.add(_question!.id);
       notifyListeners();
     }
   }
-}
 
+  Future<void> saveAnswer(Map<String, dynamic> answers) async {
+    DateTime now = DateTime.now();
+    answers['submitted_at'] = now.toString();
+    await DatabaseHelper().saveAnswers(answers);
+  }
+}

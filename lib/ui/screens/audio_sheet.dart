@@ -71,22 +71,22 @@ class _ModalSheetState extends State<ModalSheet> with WidgetsBindingObserver {
                   ],
                 )),
             vSpaceSmall,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Say Something ... ',
-                  style:
-                      TextStyle(color: greyv2, fontWeight: FontWeight.normal),
-                ),
-                SVGBtnIcon(
-                    svg: Icon(Icons.mic, color: Colors.white, size: 30),
-                    bgColor: red,
-                    onTap: () {},
-                    splashColor: Colors.redAccent)
-              ],
-            )
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     Text(
+            //       'Say Something ... ',
+            //       style:
+            //           TextStyle(color: greyv2, fontWeight: FontWeight.normal),
+            //     ),
+            //     SVGBtnIcon(
+            //         svg: Icon(Icons.mic, color: Colors.white, size: 30),
+            //         bgColor: red,
+            //         onTap: () {},
+            //         splashColor: Colors.redAccent)
+            //   ],
+            // )
             // Container(
             //     padding: EdgeInsets.symmetric(horizontal: 5),
             //     width: double.infinity,

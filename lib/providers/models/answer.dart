@@ -1,6 +1,6 @@
 class Answer {
-  String id;
-  String questionId;
+  int id;
+  int questionId;
   String answerText;
   String submittedAt;
 

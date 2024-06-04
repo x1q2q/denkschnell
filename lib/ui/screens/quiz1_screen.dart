@@ -108,13 +108,18 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
                                         (BuildContext context, int index) {
                                       List<String> char = ['A', 'B', 'C'];
                                       String option = qProvider.question
-                                              ?.options![index].optionText ??
+                                              ?.options?[index].optionText ??
                                           teksQuestion;
+                                      int isBolder = qProvider.question
+                                              ?.options?[index].isBolder ??
+                                          0;
                                       return Container(
                                           margin: EdgeInsets.only(top: 10),
                                           child: Text(
                                             '${char[index]}. $option',
-                                            style: Styles.bBold12,
+                                            style: (isBolder == 1)
+                                                ? Styles.vbBold12
+                                                : Styles.bBold12,
                                             textAlign: TextAlign.left,
                                           ));
                                     },

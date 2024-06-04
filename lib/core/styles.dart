@@ -86,10 +86,29 @@ class Styles {
       color: Colors.black,
       fontSize: 15);
 
+  static const gBold15 = TextStyle(
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.normal,
+      color: Colors.grey,
+      fontSize: 15);
+
+  static const txtBtn = TextStyle(
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w800,
+      color: darkblue,
+      fontSize: 13);
+
   static const bBold12 = TextStyle(
+      fontFamily: 'Lato',
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+      fontSize: 12);
+
+  static const vbBold12 = TextStyle(
       fontFamily: 'Lato',
       fontWeight: FontWeight.w800,
       color: Colors.black,
+      decoration: TextDecoration.underline,
       fontSize: 12);
 
   static const bRegular12 = TextStyle(
@@ -118,7 +137,8 @@ class Styles {
   static const snackBarRemBookmark = SnackBar(
     content:
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-      Icon(Icons.remove_circle_rounded, color: Colors.white),
+      Icon(Icons.check_circle, color: Colors.white),
+      Text('Quetions answers saved 👍', style: Styles.wBold13)
     ]),
     backgroundColor: darkblue,
     behavior: SnackBarBehavior.floating,

@@ -5,6 +5,7 @@ import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
 import 'package:provider/provider.dart';
 import '../../providers/helpers/question_provider.dart';
+import '../../providers/models/answer.dart';
 
 class Quiz2Screen extends StatefulWidget {
   Quiz2Screen({Key? key}) : super(key: key);
@@ -15,6 +16,7 @@ class Quiz2Screen extends StatefulWidget {
 
 class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
   String teksQuestion = '';
+  final TextEditingController _txtController = TextEditingController();
 
   @override
   void initState() {
@@ -106,6 +108,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
   }
 
   Widget cardWhiteHeader(BuildContext context, String teks) {
+    final qProvider = Provider.of<QuestionProvider>(context, listen: false);
     var screenSizes = MediaQuery.of(context).size;
     return Center(
         child: Container(
@@ -134,11 +137,16 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 SVGBtnIcon(
-                  svg: SVG.modalEditIcon,
-                  bgColor: Colors.orange,
-                  splashColor: Colors.orangeAccent,
-                  onTap: () {
-                    showModalBottomSheet(
+                  svg: (qProvider.answer != null)
+                      ? SVG.modalViewIcon
+                      : SVG.modalEditIcon,
+                  bgColor:
+                      (qProvider.answer != null) ? darkblue : Colors.orange,
+                  splashColor: (qProvider.answer != null)
+                      ? Colors.blue
+                      : Colors.orangeAccent,
+                  onTap: () async {
+                    await showModalBottomSheet(
                         isScrollControlled: true,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
@@ -168,37 +176,82 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
   }
 
   Widget modalSheet(BuildContext context, String teks) {
-    return Container(
-      padding: EdgeInsets.all(20),
-      height: 280,
-      width: MediaQuery.of(context).size.width,
-      child: Column(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 180,
-              child: TextField(
-                maxLines: 5,
-                decoration: InputDecoration(
-                    hintText: teks,
-                    hintStyle:
-                        TextStyle(color: greyv2, fontWeight: FontWeight.normal),
-                    focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: grey),
-                        borderRadius: BorderRadius.circular(22)),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: grey),
-                        borderRadius: BorderRadius.circular(22))),
-              ),
+    final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+
+    return (qProvider.answer != null)
+        ? Container(
+            padding: EdgeInsets.all(20),
+            constraints: BoxConstraints(
+              minHeight: 260,
             ),
-            ElevatedButton(
-              style: Styles.basicBtn,
-              onPressed: () {},
-              child: Text('Simpan'),
-            )
-          ]),
-    );
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text('  Jawaban Kamu', style: Styles.gBold15),
+                  vSpaceXSmall,
+                  Container(
+                      padding:
+                          EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                      width: double.infinity,
+                      decoration: BoxDecoration(
+                          border: Border.all(color: greyv2, width: 1),
+                          borderRadius: BorderRadius.circular(20)),
+                      child: Text(
+                        qProvider.answer?.answerText ?? "-",
+                        style: Styles.bBold15,
+                      )),
+                  vSpaceSmall,
+                  TextButton.icon(
+                    onPressed: () {},
+                    icon: Icon(Icons.arrow_circle_right, color: darkblue),
+                    label: Text('Check Correct Answers', style: Styles.txtBtn),
+                  )
+                ]))
+        : Container(
+            padding: EdgeInsets.all(20),
+            height: 280,
+            width: MediaQuery.of(context).size.width,
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 180,
+                    child: TextField(
+                      maxLines: 5,
+                      controller: _txtController,
+                      decoration: InputDecoration(
+                          hintText: 'isi jawaban',
+                          hintStyle: TextStyle(
+                              color: greyv2, fontWeight: FontWeight.normal),
+                          focusedBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: grey),
+                              borderRadius: BorderRadius.circular(22)),
+                          enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: grey),
+                              borderRadius: BorderRadius.circular(22))),
+                    ),
+                  ),
+                  ElevatedButton(
+                    style: Styles.basicBtn,
+                    onPressed: () async {
+                      final String teksVal = _txtController.text.toLowerCase();
+                      Map<String, dynamic> dataAnswer = {
+                        "question_id": qProvider.question?.id,
+                        "answer_text": teksVal
+                      };
+                      await qProvider.saveAnswer(dataAnswer);
+                      Navigator.pop(context);
+                      await ScaffoldMessenger.of(context)
+                          .showSnackBar(Styles.snackBarRemBookmark);
+                    },
+                    child: Text('Simpan'),
+                  )
+                ]),
+          );
   }
 }

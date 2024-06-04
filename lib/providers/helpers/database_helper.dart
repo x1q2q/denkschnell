@@ -38,8 +38,8 @@ class DatabaseHelper {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    // await db.execute(
-    //     'CREATE TABLE answers2 (id INTEGER PRIMARY KEY AUTOINCREMENT, suraId INTEGER, tipe TEXT, surahName TEXT, totalAyat TEXT)');
+    await db.execute(
+        'CREATE TABLE answers (id INTEGER PRIMARY KEY AUTOINCREMENT, question_id INTEGER, answer_text TEXT, submitted_at TEXT)');
   }
 
   Future<List> getAllData(String table) async {
@@ -56,10 +56,10 @@ class DatabaseHelper {
     return ids;
   }
 
-  Future<Question> retrieveQuestionByID(String table, int questionId) async {
+  Future<Question> retrieveQuestionByID(int questionId) async {
     Database db = await database;
     final List<Map<String, dynamic>> questionMaps =
-        await db.rawQuery("SELECT * FROM $table WHERE id='$questionId'");
+        await db.rawQuery("SELECT * FROM questions WHERE id='$questionId'");
     final List<Map<String, dynamic>> optionMaps = await db.rawQuery(
         "SELECT * FROM multiple_choice_options WHERE question_id='$questionId'");
 
@@ -77,5 +77,38 @@ class DatabaseHelper {
       'options': dataOption
     };
     return Question.fromMap(data);
+  }
+
+  Future<Answer> saveAnswers(Map<String, dynamic> answers) async {
+    Database db = await database;
+    await db.transaction((txn) async {
+      int insertedId = await txn.rawInsert(
+          "INSERT INTO answers  (id, question_id, answer_text, submitted_at) VALUES (?,?,?,?)",
+          [
+            null,
+            answers['question_id'],
+            answers['answer_text'],
+            answers['submitted_at']
+          ]);
+
+      answers['id'] = insertedId;
+    });
+    return Answer.fromMap(answers);
+  }
+
+  Future<Answer?> retrieveAnswerByID(int questionId) async {
+    Database db = await database;
+    List<Map<String, dynamic>> resultAnswer = await db
+        .rawQuery("SELECT * FROM answers WHERE question_id='$questionId'");
+    if (resultAnswer.isNotEmpty) {
+      return Answer.fromMap(resultAnswer[0]);
+    } else {
+      return null;
+    }
+  }
+
+  Future<void> deleteAll(String table) async {
+    Database db = await database;
+    await db.rawDelete('DELETE FROM $table');
   }
 }
