@@ -58,10 +58,7 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
                               child: SVGBtnIcon(
                                   svg: SVG.homeIcon,
                                   onTap: () async {
-                                    final provider =
-                                        Provider.of<QuestionProvider>(context,
-                                            listen: false);
-                                    await provider.refreshIDsQuestion();
+                                    await qProvider.refreshIDsQuestion();
                                     final aProvider =
                                         Provider.of<AudioProvider>(context,
                                             listen: false);
@@ -182,11 +179,19 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
                   onTap: () async {
                     final provider =
                         Provider.of<QuestionProvider>(context, listen: false);
-                    await provider.fetchQuestion('audio_text', 'level1',
-                        isNextQuestion: true);
                     final aProvider =
                         Provider.of<AudioProvider>(context, listen: false);
-                    aProvider.stop();
+
+                    if (provider.isLastQuestion) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(Styles.snackBarLastAnswers);
+                      await provider.refreshIDsQuestion();
+                      Navigator.popAndPushNamed(context, '/menu-screen');
+                    } else {
+                      await provider.fetchQuestion('audio_text', 'level1',
+                          isNextQuestion: true);
+                      aProvider.stop();
+                    }
                   },
                 ),
               ],

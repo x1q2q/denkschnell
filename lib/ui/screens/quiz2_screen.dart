@@ -23,10 +23,11 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
     super.initState();
     initializeDateFormatting();
     WidgetsBinding.instance.addObserver(this);
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       final qProvider = Provider.of<QuestionProvider>(context, listen: false);
-     
-      qProvider.fetchQuestion('essay_text', qProvider.levelEssay ?? 'level1');
+      await qProvider.checkWrongAnswers();
+      await qProvider.fetchQuestion(
+          'essay_text', qProvider.levelEssay ?? 'level1');
     });
   }
 
@@ -37,7 +38,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final qProvider = Provider.of<QuestionProvider>(context);
+    final provider = Provider.of<QuestionProvider>(context);
     var screenSizes = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: lightblue,
@@ -59,9 +60,6 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                               child: SVGBtnIcon(
                                   svg: SVG.homeIcon,
                                   onTap: () async {
-                                    final provider =
-                                        Provider.of<QuestionProvider>(context,
-                                            listen: false);
                                     await provider.refreshIDsQuestion();
                                     Navigator.popAndPushNamed(
                                         context, '/menu-screen');
@@ -97,8 +95,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                             width: screenSizes.width - (screenSizes.width / 8),
                             child: Column(children: <Widget>[
                               Text(
-                                qProvider.question?.questionText ??
-                                    teksQuestion,
+                                provider.question?.questionText ?? teksQuestion,
                                 style: Styles.bBold14,
                                 textAlign: TextAlign.center,
                               )
@@ -110,12 +107,12 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                       ),
                       vSpaceXSmall,
                       cardWhiteHeader(context,
-                          qProvider.question?.correctAnswer ?? teksQuestion)
+                          provider.question?.correctAnswer ?? teksQuestion)
                     ]))));
   }
 
   Widget cardWhiteHeader(BuildContext context, String teks) {
-    final qProvider = Provider.of<QuestionProvider>(context);
+    final qProvider = Provider.of<QuestionProvider>(context, listen: false);
     var screenSizes = MediaQuery.of(context).size;
     return Center(
         child: Container(
@@ -171,10 +168,15 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                   bgColor: green,
                   splashColor: Colors.teal,
                   onTap: () async {
-                    final provider =
-                        Provider.of<QuestionProvider>(context, listen: false);
-                    await provider.fetchQuestion('essay_text', 'level1',
-                        isNextQuestion: true);
+                    if (qProvider.isLastQuestion) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(Styles.snackBarLastAnswers);
+                      await qProvider.refreshIDsQuestion();
+                      Navigator.popAndPushNamed(context, '/menu-screen');
+                    } else {
+                      await qProvider.fetchQuestion('essay_text', 'level1',
+                          isNextQuestion: true);
+                    }
                   },
                 ),
               ],

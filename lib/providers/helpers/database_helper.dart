@@ -117,7 +117,7 @@ class DatabaseHelper {
     await db.rawDelete('DELETE FROM $table');
   }
 
-  Future<List> getAnswerChoices() async {
+  Future<List<Map<String, dynamic>>> getAnswerChoices() async {
     Database db = await database;
     List<Map<String, dynamic>> result = await db.rawQuery(
         "SELECT * FROM answers WHERE answer_text='excellence' OR answer_text='wrong' ORDER BY submitted_at DESC");
@@ -131,5 +131,11 @@ class DatabaseHelper {
     List filteredResult =
         result.where((el) => el['answer_text'] == 'wrong').toList();
     return filteredResult.length;
+  }
+
+  Future<void> deleteAnswerChoices() async {
+    Database db = await database;
+    await db.rawDelete(
+        "DELETE FROM answers WHERE answer_text='excellence' or answer_text='wrong'");
   }
 }

@@ -171,4 +171,15 @@ class Styles {
     backgroundColor: Colors.amber,
     behavior: SnackBarBehavior.floating,
   );
+
+  static const snackBarLastAnswers = SnackBar(
+    duration: const Duration(milliseconds: 1000),
+    content:
+        Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
+      Icon(Icons.info_outline_rounded, color: Colors.white),
+      Text(' All Quetions has been asnwered 👍', style: Styles.wBold13)
+    ]),
+    backgroundColor: green,
+    behavior: SnackBarBehavior.floating,
+  );
 }

@@ -10,15 +10,20 @@ class QuestionProvider with ChangeNotifier {
   List<int> usedIdsQuestion = [];
   Question? _question;
   Question? get question => _question;
+
+  bool _isLastquestion = false;
+  bool get isLastQuestion => _isLastquestion;
+
   Answer? _answer;
   Answer? get answer => _answer;
+
   bool _isVisibleAnswer = false;
   bool get isVisibleAnswer => _isVisibleAnswer;
+
   List<Map<String, dynamic>> listAnswerMultipleChoice = [];
   String? levelEssay; // for forward chaining method use
-
-  List? _allAnswerChoices;
-  List? get allAnswerChoice => _allAnswerChoices;
+  String? answerRightResult;
+  String? answerTotalResult;
 
   Future<void> fetchIDQuestions(String typeQuestions, String levelType) async {
     _idsQuestion = await DatabaseHelper()
@@ -26,10 +31,26 @@ class QuestionProvider with ChangeNotifier {
   }
 
   Future<void> refreshIDsQuestion() async {
+    if (listAnswerMultipleChoice.length == _idsQuestion.length) {
+      // save an answer multiple choices after completing all quetions
+      await DatabaseHelper().deleteAnswerChoices();
+      for (var elem in listAnswerMultipleChoice) {
+        await saveAnswer(elem);
+      }
+      List<Map<String, dynamic>> resultAnswers =
+          await DatabaseHelper().getAnswerChoices();
+      List filteredResult = resultAnswers
+          .where((el) => el['answer_text'] == 'excellence')
+          .toList();
+      answerRightResult = filteredResult.length.toString();
+      answerTotalResult = resultAnswers.length.toString();
+    }
     _idsQuestion.clear();
     usedIdsQuestion.clear();
     _isVisibleAnswer = false;
     listAnswerMultipleChoice.clear();
+    _isLastquestion = false;
+    levelEssay = 'level1';
     notifyListeners();
   }
 
@@ -44,23 +65,18 @@ class QuestionProvider with ChangeNotifier {
         ? 0
         : usedIdsQuestion.length;
 
-    if (_idsQuestion.length == usedIdsQuestion.length) {
-      // _question = await DatabaseHelper()
-      //     .retrieveQuestionByID('questions', _idsQuestion[0]);
-      if (listAnswerMultipleChoice.isNotEmpty) {
-        listAnswerMultipleChoice.forEach((elem) async {
-          await saveAnswer(elem);
-        });
-      }
-    } else if (_idsQuestion.isNotEmpty) {
+    if (_idsQuestion.isNotEmpty) {
       _answer =
           await DatabaseHelper().retrieveAnswerByID(_idsQuestion[indexes]);
       _question =
           await DatabaseHelper().retrieveQuestionByID(_idsQuestion[indexes]);
 
       usedIdsQuestion.add(_question!.id);
-      notifyListeners();
+      if (_idsQuestion.length == usedIdsQuestion.length) {
+        _isLastquestion = true; // notify that current state is lasted question
+      }
     }
+    notifyListeners();
   }
 
   Future<void> setAnswer(Answer? customAnswer) async {
@@ -93,10 +109,6 @@ class QuestionProvider with ChangeNotifier {
         : countWrongAnswersChoices == 2
             ? 'level2'
             : 'level3';
-  }
-
-  Future<void> fetchAnswerChoices() async {
-    _allAnswerChoices = await DatabaseHelper().getAnswerChoices();
     notifyListeners();
   }
 }

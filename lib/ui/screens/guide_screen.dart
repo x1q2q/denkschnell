@@ -27,6 +27,16 @@ class GuideScreen extends StatefulWidget {
 
 class _GuideScreenState extends State<GuideScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final qProvider = Provider.of<QuestionProvider>(context, listen: false);
     String content = widget.description;
@@ -86,12 +96,7 @@ class _GuideScreenState extends State<GuideScreen> {
                             if (widget.quizId == '1') {
                               Navigator.pushNamed(context, '/quiz1-screen');
                             } else if (widget.quizId == '2') {
-                              await qProvider.fetchAnswerChoices();
-                              if (qProvider.allAnswerChoice!.isNotEmpty) {
-                                qProvider.checkWrongAnswers();
-                              } else {
-                                qProvider.levelEssay = 'level1';
-                              }
+                              // implements forwardchaining algorithm
                               Navigator.pushNamed(context, '/quiz2-screen');
                             } else if (widget.quizId == '3') {
                               Navigator.pushNamed(context, '/quiz3-screen');

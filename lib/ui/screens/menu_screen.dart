@@ -31,7 +31,8 @@ class _MenuScreenState extends State<MenuScreen> {
   _getData() async {
     _isLoading = true;
     menus = await dbServ.getAllData('quiz');
-    int wrongAnswer = await dbServ.getCountWrongAnswers();
+    List? wrongAnswer = await dbServ.getAnswerChoices();
+    print(wrongAnswer.length);
     print(wrongAnswer);
     setState(() {
       _isLoading = false;
