@@ -189,7 +189,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                       ScaffoldMessenger.of(context)
                           .showSnackBar(Styles.snackBarLastAnswers);
                       await qProvider.refreshIDsQuestion();
-                      Navigator.popAndPushNamed(context, '/menu-screen');
+                      Navigator.pushNamed(context, '/menu-screen');
                     } else {
                       await qProvider.fetchQuestion('essay_text', 'level1',
                           isNextQuestion: true);
