@@ -77,24 +77,24 @@ class _ModalSheetState extends State<ModalSheet> {
                   ],
                 )),
             vSpaceSmall,
-            const MySeparator(height: 1, color: greyv2),
-            vSpaceSmall,
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  'Say Something ... ',
-                  style:
-                      TextStyle(color: greyv2, fontWeight: FontWeight.normal),
-                ),
-                SVGBtnIcon(
-                    svg: Icon(Icons.mic, color: Colors.white, size: 30),
-                    bgColor: red,
-                    onTap: () {},
-                    splashColor: Colors.pink)
-              ],
-            )
+            // const MySeparator(height: 1, color: greyv2),
+            // vSpaceSmall,
+            // Row(
+            //   crossAxisAlignment: CrossAxisAlignment.center,
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: <Widget>[
+            //     Text(
+            //       'Say Something ... ',
+            //       style:
+            //           TextStyle(color: greyv2, fontWeight: FontWeight.normal),
+            //     ),
+            //     SVGBtnIcon(
+            //         svg: Icon(Icons.mic, color: Colors.white, size: 30),
+            //         bgColor: red,
+            //         onTap: () {},
+            //         splashColor: Colors.pink)
+            //   ],
+            // )
             // Container(
             //     padding: EdgeInsets.symmetric(horizontal: 5),
             //     width: double.infinity,

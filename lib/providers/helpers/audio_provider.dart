@@ -29,6 +29,12 @@ class AudioProvider with ChangeNotifier {
     triggerPlay(false);
   }
 
+  void disposeAll() async {
+    _onPlay = false;
+    _sources = '';
+    await player.stop();
+  }
+
   void triggerPlay(bool val) {
     _onPlay = val;
     notifyListeners();

@@ -32,6 +32,15 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.detached) {
+      final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+      qProvider.refreshIDsQuestion();
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
@@ -40,75 +49,83 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final provider = Provider.of<QuestionProvider>(context);
     var screenSizes = MediaQuery.of(context).size;
-    return Scaffold(
-        backgroundColor: lightblue,
-        body: SafeArea(
-            child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: Styles.linearGradient,
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              child: SVGBtnIcon(
-                                  svg: SVG.homeIcon,
-                                  onTap: () async {
-                                    await provider.refreshIDsQuestion();
-                                    Navigator.popAndPushNamed(
-                                        context, '/menu-screen');
-                                  },
-                                  bgColor: red,
-                                  splashColor: Colors.red),
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                            ),
-                            Container(
-                                child: Text(
-                                  'Landeskunde',
-                                  style: Styles.bBold15,
-                                ),
-                                margin: EdgeInsets.only(right: 10))
-                          ]),
-                      vSpaceMedium,
-                      Stack(
-                        clipBehavior: Clip.none,
+    return PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          await provider.refreshIDsQuestion();
+          Navigator.pop(context);
+        },
+        child: Scaffold(
+            backgroundColor: lightblue,
+            body: SafeArea(
+                child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      gradient: Styles.linearGradient,
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.symmetric(
-                                vertical: 20, horizontal: 0),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 30, horizontal: 10),
-                            decoration: const BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [Styles.boxCardShdStyle],
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            width: screenSizes.width - (screenSizes.width / 8),
-                            child: Column(children: <Widget>[
-                              Text(
-                                provider.question?.questionText ?? teksQuestion,
-                                style: Styles.bBold14,
-                                textAlign: TextAlign.center,
-                              )
-                            ]),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(5),
+                                  child: SVGBtnIcon(
+                                      svg: SVG.homeIcon,
+                                      onTap: () async {
+                                        await provider.refreshIDsQuestion();
+                                        Navigator.pushNamed(
+                                            context, '/menu-screen');
+                                      },
+                                      bgColor: red,
+                                      splashColor: Colors.red),
+                                  decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(50))),
+                                ),
+                                Container(
+                                    child: Text(
+                                      'Landeskunde',
+                                      style: Styles.bBold15,
+                                    ),
+                                    margin: EdgeInsets.only(right: 10))
+                              ]),
+                          vSpaceMedium,
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.symmetric(
+                                    vertical: 20, horizontal: 0),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 30, horizontal: 10),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white,
+                                    boxShadow: [Styles.boxCardShdStyle],
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                width:
+                                    screenSizes.width - (screenSizes.width / 8),
+                                child: Column(children: <Widget>[
+                                  Text(
+                                    provider.question?.questionText ??
+                                        teksQuestion,
+                                    style: Styles.bBold14,
+                                    textAlign: TextAlign.center,
+                                  )
+                                ]),
+                              ),
+                              Positioned(
+                                  child: SVG.speakerIcon, left: -10, top: -30),
+                            ],
                           ),
-                          Positioned(
-                              child: SVG.speakerIcon, left: -10, top: -30),
-                        ],
-                      ),
-                      vSpaceXSmall,
-                      cardWhiteHeader(context,
-                          provider.question?.correctAnswer ?? teksQuestion)
-                    ]))));
+                          vSpaceXSmall,
+                          cardWhiteHeader(context,
+                              provider.question?.correctAnswer ?? teksQuestion)
+                        ])))));
   }
 
   Widget cardWhiteHeader(BuildContext context, String teks) {

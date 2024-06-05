@@ -30,6 +30,17 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.detached) {
+      final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+      final aProvider = Provider.of<AudioProvider>(context, listen: false);
+      qProvider.refreshIDsQuestion();
+      aProvider.disposeAll();
+    }
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
@@ -38,79 +49,89 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     final qProvider = Provider.of<QuestionProvider>(context);
     var screenSizes = MediaQuery.of(context).size;
-    return Scaffold(
-        backgroundColor: lightblue,
-        body: SafeArea(
-            child: Container(
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                  gradient: Styles.linearGradient,
-                ),
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: <Widget>[
-                      Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: <Widget>[
-                            Container(
-                              padding: EdgeInsets.all(5),
-                              child: SVGBtnIcon(
-                                  svg: SVG.homeIcon,
-                                  onTap: () async {
-                                    await qProvider.refreshIDsQuestion();
-                                    final aProvider =
-                                        Provider.of<AudioProvider>(context,
-                                            listen: false);
-                                    aProvider.stop();
-                                    Navigator.popAndPushNamed(
-                                        context, '/menu-screen');
-                                  },
-                                  bgColor: red,
-                                  splashColor: Colors.red),
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                            ),
-                            Container(
-                                child: Text(
-                                  'Rollenspielen',
-                                  style: Styles.bBold15,
-                                ),
-                                margin: EdgeInsets.only(right: 10))
-                          ]),
-                      vSpaceMedium,
-                      Stack(
-                        clipBehavior: Clip.none,
+    return PopScope(
+        canPop: false,
+        onPopInvoked: (didPop) async {
+          await qProvider.refreshIDsQuestion();
+          Navigator.pop(context);
+        },
+        child: Scaffold(
+            backgroundColor: lightblue,
+            body: SafeArea(
+                child: Container(
+                    width: double.infinity,
+                    decoration: const BoxDecoration(
+                      gradient: Styles.linearGradient,
+                    ),
+                    padding: const EdgeInsets.all(10),
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            margin: EdgeInsets.only(top: 20),
-                            padding: EdgeInsets.symmetric(
-                                vertical: 30, horizontal: 10),
-                            decoration: const BoxDecoration(
-                                boxShadow: [Styles.boxCardShdStyle],
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(20))),
-                            width: screenSizes.width - (screenSizes.width / 8),
-                            child: Text(
-                              qProvider.question?.questionText ?? teksQuestion,
-                              style: Styles.bBold14,
-                              textAlign: TextAlign.center,
-                            ),
+                          Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(5),
+                                  child: SVGBtnIcon(
+                                      svg: SVG.homeIcon,
+                                      onTap: () async {
+                                        await qProvider.refreshIDsQuestion();
+                                        final aProvider =
+                                            Provider.of<AudioProvider>(context,
+                                                listen: false);
+                                        aProvider.stop();
+                                        Navigator.pushNamed(
+                                            context, '/menu-screen');
+                                      },
+                                      bgColor: red,
+                                      splashColor: Colors.red),
+                                  decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(50))),
+                                ),
+                                Container(
+                                    child: Text(
+                                      'Rollenspielen',
+                                      style: Styles.bBold15,
+                                    ),
+                                    margin: EdgeInsets.only(right: 10))
+                              ]),
+                          vSpaceMedium,
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: <Widget>[
+                              Container(
+                                margin: EdgeInsets.only(top: 20),
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 30, horizontal: 10),
+                                decoration: const BoxDecoration(
+                                    boxShadow: [Styles.boxCardShdStyle],
+                                    color: Colors.white,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20))),
+                                width:
+                                    screenSizes.width - (screenSizes.width / 8),
+                                child: Text(
+                                  qProvider.question?.questionText ??
+                                      teksQuestion,
+                                  style: Styles.bBold14,
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              Positioned(
+                                  child: SVG.speakerIcon, left: -10, top: -30),
+                            ],
                           ),
-                          Positioned(
-                              child: SVG.speakerIcon, left: -10, top: -30),
-                        ],
-                      ),
-                      vSpaceSmall,
-                      cardOrange(context,
-                          qProvider.question?.correctAnswer ?? teksQuestion),
-                      vSpaceSmall,
-                      cardWhiteHeader(
-                          context, qProvider.question?.options ?? [])
-                    ]))));
+                          vSpaceSmall,
+                          cardOrange(
+                              context,
+                              qProvider.question?.correctAnswer ??
+                                  teksQuestion),
+                          vSpaceSmall,
+                          cardWhiteHeader(
+                              context, qProvider.question?.options ?? [])
+                        ])))));
   }
 
   Widget cardOrange(BuildContext context, String? teks) {

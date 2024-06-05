@@ -32,6 +32,15 @@ class _ResultScreenState extends State<ResultScreen>
     });
   }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    if (state == AppLifecycleState.detached) {
+      final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+      qProvider.refreshIDsQuestion();
+    }
+  }
+
   bool isExcellence(Question? providerQuestion) {
     Question? selectedQ = providerQuestion!;
     if (widget.btnTypeChecked == 'checkIcon') {
