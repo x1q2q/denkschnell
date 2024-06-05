@@ -77,6 +77,7 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
                                   child: SVGBtnIcon(
                                       svg: SVG.homeIcon,
                                       onTap: () async {
+                                        await qProvider.refreshIDsQuestion();
                                         aProvider.stop();
                                         Navigator.pushNamed(
                                             context, '/menu-screen');
