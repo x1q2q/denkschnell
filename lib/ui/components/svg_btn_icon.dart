@@ -27,7 +27,7 @@ class SVGBtnIcon extends StatelessWidget {
           onTap: onTap,
           customBorder: const CircleBorder(),
           child: Ink(
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             decoration: const BoxDecoration(shape: BoxShape.circle),
             height: 50,
             width: 50,

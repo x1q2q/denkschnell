@@ -40,8 +40,12 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
-            child: SingleChildScrollView(
-                padding: EdgeInsets.all(10),
+            child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: Styles.linearGradient,
+                ),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[

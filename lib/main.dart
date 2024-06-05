@@ -10,15 +10,20 @@ import 'ui/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import '../../providers/helpers/question_provider.dart';
 import '../../providers/helpers/audio_provider.dart';
+import 'package:flutter/services.dart';
 
 void main() {
-  runApp(MultiProvider(
-    providers: [
-      ChangeNotifierProvider(create: (_) => QuestionProvider()),
-      ChangeNotifierProvider(create: (_) => AudioProvider())
-    ],
-    child: const MainApp(),
-  ));
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations(
+      [DeviceOrientation.portraitDown, DeviceOrientation.portraitUp]).then((_) {
+    runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => QuestionProvider()),
+        ChangeNotifierProvider(create: (_) => AudioProvider())
+      ],
+      child: const MainApp(),
+    ));
+  });
 }
 
 class MainApp extends StatelessWidget {

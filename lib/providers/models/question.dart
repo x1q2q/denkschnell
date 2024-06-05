@@ -42,4 +42,10 @@ class Question {
         correctAnswer: maps['correct_answer'],
         options: maps['options']);
   }
+
+  bool isAnswerCorrect(String? selectedOption) {
+    // check if choices in options (optionText) is same with correct answer on question.
+    return options?.firstWhere((option) => option.isBolder == 1).optionText ==
+        selectedOption;
+  }
 }

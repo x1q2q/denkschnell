@@ -24,7 +24,7 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final qProvider = Provider.of<QuestionProvider>(context, listen: false);
-      qProvider.fetchQuestion('multiple_choice', 'level1', true);
+      qProvider.fetchQuestion('multiple_choice', 'level1');
     });
   }
 
@@ -40,8 +40,12 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
-            child: SingleChildScrollView(
-                padding: EdgeInsets.all(10),
+            child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: Styles.linearGradient,
+                ),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -83,7 +87,8 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
                                 vertical: 20, horizontal: 0),
                             padding: EdgeInsets.symmetric(
                                 vertical: 30, horizontal: 10),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
+                                boxShadow: [Styles.boxCardShdStyle],
                                 color: Colors.white,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
@@ -95,7 +100,8 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
                                       child: Text(
                                     qProvider.question?.questionText ??
                                         teksQuestion,
-                                    style: Styles.bBold12,
+                                    style: Styles.bBold14,
+                                    textAlign: TextAlign.center,
                                   )),
                                   vSpaceXSmall,
                                   ListView.builder(
@@ -114,11 +120,18 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
                                               ?.options?[index].isBolder ??
                                           0;
                                       return Container(
+                                          padding: EdgeInsets.all(5),
                                           margin: EdgeInsets.only(top: 10),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(14)),
+                                              color: (isBolder == 1)
+                                                  ? black
+                                                  : Colors.transparent),
                                           child: Text(
                                             '${char[index]}. $option',
                                             style: (isBolder == 1)
-                                                ? Styles.vbBold12
+                                                ? Styles.wBold12
                                                 : Styles.bBold12,
                                             textAlign: TextAlign.left,
                                           ));
@@ -169,7 +182,13 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
                       svg: SVG.crossIcon,
                       bgColor: red,
                       splashColor: Colors.red,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ResultScreen(btnTypeChecked: 'crossIcon')));
+                      },
                     ),
                     SVGBtnIcon(
                       svg: SVG.checkIcon,
@@ -179,7 +198,8 @@ class _Quiz1ScreenState extends State<Quiz1Screen> with WidgetsBindingObserver {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => ResultScreen()));
+                                builder: (context) =>
+                                    ResultScreen(btnTypeChecked: 'checkIcon')));
                       },
                     ),
                   ],

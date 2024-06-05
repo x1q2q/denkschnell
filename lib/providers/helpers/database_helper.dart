@@ -47,6 +47,11 @@ class DatabaseHelper {
     return await db.rawQuery('SELECT * FROM "$table"');
   }
 
+  Future<List> getWhere(String table, String val) async {
+    Database db = await database;
+    return await db.rawQuery("SELECT * FROM $table WHERE answer_text='$val'");
+  }
+
   Future<List<int>> retrieveIDsQuestion(
       String table, String questionType, String levelType) async {
     Database db = await database;
@@ -110,5 +115,21 @@ class DatabaseHelper {
   Future<void> deleteAll(String table) async {
     Database db = await database;
     await db.rawDelete('DELETE FROM $table');
+  }
+
+  Future<List> getAnswerChoices() async {
+    Database db = await database;
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        "SELECT * FROM answers WHERE answer_text='excellence' OR answer_text='wrong' ORDER BY submitted_at DESC");
+    return result;
+  }
+
+  Future<int> getCountWrongAnswers() async {
+    Database db = await database;
+    List<Map<String, dynamic>> result = await db.rawQuery(
+        "SELECT * FROM answers WHERE answer_text='excellence' OR answer_text='wrong' ORDER BY submitted_at DESC LIMIT 15 ");
+    List filteredResult =
+        result.where((el) => el['answer_text'] == 'wrong').toList();
+    return filteredResult.length;
   }
 }

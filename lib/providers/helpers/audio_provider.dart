@@ -29,7 +29,7 @@ class AudioProvider with ChangeNotifier {
     triggerPlay(false);
   }
 
-  Future<void> triggerPlay(bool val) async {
+  void triggerPlay(bool val) {
     _onPlay = val;
     notifyListeners();
   }

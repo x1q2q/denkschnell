@@ -6,7 +6,7 @@ import '../../ui/components/svg.dart';
 import 'package:provider/provider.dart';
 import '../../providers/helpers/question_provider.dart';
 import '../../providers/helpers/audio_provider.dart';
-import 'audio_sheet.dart';
+import '../components/audio_sheet.dart';
 
 class Quiz3Screen extends StatefulWidget {
   Quiz3Screen({Key? key}) : super(key: key);
@@ -25,7 +25,7 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final qProvider = Provider.of<QuestionProvider>(context, listen: false);
-      qProvider.fetchQuestion('audio_text', 'level1', false);
+      qProvider.fetchQuestion('audio_text', 'level1');
     });
   }
 
@@ -41,9 +41,12 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
-            child: SingleChildScrollView(
-                physics: NeverScrollableScrollPhysics(),
-                padding: EdgeInsets.all(10),
+            child: Container(
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: Styles.linearGradient,
+                ),
+                padding: const EdgeInsets.all(10),
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
@@ -88,14 +91,15 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
                             margin: EdgeInsets.only(top: 20),
                             padding: EdgeInsets.symmetric(
                                 vertical: 30, horizontal: 10),
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
+                                boxShadow: [Styles.boxCardShdStyle],
                                 color: Colors.white,
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(20))),
                             width: screenSizes.width - (screenSizes.width / 8),
                             child: Text(
                               qProvider.question?.questionText ?? teksQuestion,
-                              style: Styles.bBold12,
+                              style: Styles.bBold14,
                               textAlign: TextAlign.center,
                             ),
                           ),
@@ -116,13 +120,13 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
     var screenSizes = MediaQuery.of(context).size;
     return Container(
         padding: EdgeInsets.all(10),
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
             color: lightbrownv2,
             borderRadius: BorderRadius.all(Radius.circular(10))),
         width: screenSizes.width - (screenSizes.width / 6),
         child: Text(
           teks!.replaceAll('-', '\n'),
-          style: Styles.bBold12,
+          style: Styles.bRegular12,
           textAlign: TextAlign.left,
         ));
   }
@@ -178,7 +182,8 @@ class _Quiz3ScreenState extends State<Quiz3Screen> with WidgetsBindingObserver {
                   onTap: () async {
                     final provider =
                         Provider.of<QuestionProvider>(context, listen: false);
-                    await provider.fetchQuestion('audio_text', 'level1', true);
+                    await provider.fetchQuestion('audio_text', 'level1',
+                        isNextQuestion: true);
                     final aProvider =
                         Provider.of<AudioProvider>(context, listen: false);
                     aProvider.stop();

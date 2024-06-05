@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 const Color lightblue = Color.fromARGB(255, 186, 222, 235);
+const Color lightbluev2 = Color.fromARGB(255, 186, 237, 255);
+const Color lightbluev3 = Color.fromARGB(255, 173, 227, 247);
 const Color darkblue = Color.fromARGB(255, 36, 108, 132);
 
 const Color lightbrown = Color.fromARGB(255, 240, 230, 210);

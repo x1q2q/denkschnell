@@ -5,6 +5,8 @@ import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
 import '../../ui/components/card_custom.dart';
 import '../../core/string_extension.dart';
+import 'package:provider/provider.dart';
+import '../../providers/helpers/question_provider.dart';
 
 class GuideScreen extends StatefulWidget {
   final String quizId;
@@ -26,17 +28,20 @@ class GuideScreen extends StatefulWidget {
 class _GuideScreenState extends State<GuideScreen> {
   @override
   Widget build(BuildContext context) {
+    final qProvider = Provider.of<QuestionProvider>(context, listen: false);
     String content = widget.description;
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
-            child: SingleChildScrollView(
-                padding: EdgeInsets.all(10),
-                child: Center(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
+            child: Container(
+                decoration: const BoxDecoration(
+                  gradient: Styles.linearGradient,
+                ),
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
                       Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,10 +82,16 @@ class _GuideScreenState extends State<GuideScreen> {
                       SVGBtnIcon(
                           svg: SVG.nextIcon,
                           bgColor: green,
-                          onTap: () {
+                          onTap: () async {
                             if (widget.quizId == '1') {
                               Navigator.pushNamed(context, '/quiz1-screen');
                             } else if (widget.quizId == '2') {
+                              await qProvider.fetchAnswerChoices();
+                              if (qProvider.allAnswerChoice!.isNotEmpty) {
+                                qProvider.checkWrongAnswers();
+                              } else {
+                                qProvider.levelEssay = 'level1';
+                              }
                               Navigator.pushNamed(context, '/quiz2-screen');
                             } else if (widget.quizId == '3') {
                               Navigator.pushNamed(context, '/quiz3-screen');
@@ -89,6 +100,6 @@ class _GuideScreenState extends State<GuideScreen> {
                           splashColor: Colors.teal),
                       vSpaceSmall,
                       Text('Denkschnell', style: Styles.sLabelTxtStyle)
-                    ])))));
+                    ]))));
   }
 }

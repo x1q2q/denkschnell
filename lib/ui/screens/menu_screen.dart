@@ -31,8 +31,8 @@ class _MenuScreenState extends State<MenuScreen> {
   _getData() async {
     _isLoading = true;
     menus = await dbServ.getAllData('quiz');
-    answers = await dbServ.getAllData('answers');
-    print(answers);
+    int wrongAnswer = await dbServ.getCountWrongAnswers();
+    print(wrongAnswer);
     setState(() {
       _isLoading = false;
     });
@@ -44,7 +44,11 @@ class _MenuScreenState extends State<MenuScreen> {
         backgroundColor: lightblue,
         body: SafeArea(
             child: Container(
-                padding: EdgeInsets.all(15),
+                width: double.infinity,
+                decoration: const BoxDecoration(
+                  gradient: Styles.linearGradient,
+                ),
+                padding: const EdgeInsets.all(15),
                 child: Center(
                     child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,7 +63,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                   child: CircularProgressIndicator(
                                       color: darkblue))
                               : menus!.isEmpty
-                                  ? Text('kosong...')
+                                  ? Center(child: Text('empty...'))
                                   : GridView.builder(
                                       gridDelegate:
                                           const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -107,8 +111,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                 file: nameFile,
                                 description: desc)));
                   } else {
-                    // Navigator.pushNamed(context, '/aboutus-screen');
-                    dbServ.deleteAll('answers');
+                    Navigator.pushNamed(context, '/aboutus-screen');
                   }
                 },
                 borderRadius: BorderRadius.circular(15),

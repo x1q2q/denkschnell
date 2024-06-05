@@ -5,19 +5,42 @@ import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
 import 'package:provider/provider.dart';
 import '../../providers/helpers/question_provider.dart';
+import '../../providers/models/question.dart';
 
 class ResultScreen extends StatefulWidget {
-  ResultScreen({Key? key}) : super(key: key);
+  String btnTypeChecked;
+  ResultScreen({Key? key, required this.btnTypeChecked}) : super(key: key);
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
 }
 
 class _ResultScreenState extends State<ResultScreen>
-    with WidgetInspectorService {
+    with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final qProvider = Provider.of<QuestionProvider>(context, listen: false);
+      Map<String, dynamic> dataAnswer = {
+        "question_id": qProvider.question?.id,
+        "answer_text":
+            isExcellence(qProvider.question!) ? 'excellence' : 'wrong'
+      };
+      qProvider.addAnswerChoicesStreams(dataAnswer);
+    });
+  }
+
+  bool isExcellence(Question? providerQuestion) {
+    Question? selectedQ = providerQuestion!;
+    if (widget.btnTypeChecked == 'checkIcon') {
+      // typical yes
+      return selectedQ.isAnswerCorrect(selectedQ.correctAnswer);
+    } else {
+      // typical no
+      return !selectedQ.isAnswerCorrect(selectedQ.correctAnswer);
+    }
   }
 
   @override
@@ -27,6 +50,13 @@ class _ResultScreenState extends State<ResultScreen>
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<QuestionProvider>(context, listen: false);
+
+    String resultImage =
+        isExcellence(provider.question!) ? 'excellence' : 'wrong';
+    String resultString =
+        isExcellence(provider.question!) ? 'Excellent!' : 'Wrong!';
+
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -53,10 +83,10 @@ class _ResultScreenState extends State<ResultScreen>
                       Center(
                           child: Column(
                         children: <Widget>[
-                          Image.asset('assets/images/excellence.png',
+                          Image.asset('assets/images/${resultImage}.png',
                               height: 70, width: 70),
                           vSpaceXSmall,
-                          Text('Excellent!', style: Styles.excellent)
+                          Text(resultString, style: Styles.excellent)
                         ],
                       )),
                       vSpaceMedium,
@@ -67,6 +97,7 @@ class _ResultScreenState extends State<ResultScreen>
   }
 
   Widget cardWhiteHeader(BuildContext context, int questionId) {
+    final provider = Provider.of<QuestionProvider>(context, listen: false);
     var screenSizes = MediaQuery.of(context).size;
     return Center(
         child: Container(
@@ -99,8 +130,6 @@ class _ResultScreenState extends State<ResultScreen>
                   bgColor: red,
                   splashColor: Colors.redAccent,
                   onTap: () async {
-                    final provider =
-                        Provider.of<QuestionProvider>(context, listen: false);
                     await provider.refreshIDsQuestion();
                     Navigator.popAndPushNamed(context, '/menu-screen');
                   },
@@ -109,8 +138,10 @@ class _ResultScreenState extends State<ResultScreen>
                   svg: SVG.nextIcon,
                   bgColor: green,
                   splashColor: Colors.teal,
-                  onTap: () {
-                    Navigator.pushNamed(context, '/quiz1-screen');
+                  onTap: () async {
+                    await provider.fetchQuestion('multiple_choice', 'level1',
+                        isNextQuestion: true);
+                    Navigator.pop(context);
                   },
                 ),
               ],

@@ -42,26 +42,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 ? CircularProgressIndicator(color: darkblue)
                 : abouts!.isEmpty
                     ? Text('...')
-                    : Center(
-                        child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          CardCustom(
-                            parentContext: context,
-                            teks: abouts?[0]['app_on_start']
-                                .replaceAll('-', '\n'),
-                            isCenter: true,
-                          ),
-                          ElevatedButton(
-                            style: Styles.basicBtn,
-                            onPressed: () {
-                              Navigator.pushReplacementNamed(
-                                  context, '/menu-screen');
-                            },
-                            child: Text('Next'),
-                          )
-                        ],
-                      ))));
+                    : Container(
+                        decoration: const BoxDecoration(
+                          gradient: Styles.linearGradient,
+                        ),
+                        child: Center(
+                            child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            CardCustom(
+                              parentContext: context,
+                              teks: abouts?[0]['app_on_start']
+                                  .replaceAll('-', '\n'),
+                              isCenter: true,
+                            ),
+                            ElevatedButton(
+                              style: Styles.basicBtn,
+                              onPressed: () {
+                                Navigator.pushReplacementNamed(
+                                    context, '/menu-screen');
+                              },
+                              child: Text('Next'),
+                            )
+                          ],
+                        )))));
   }
 }

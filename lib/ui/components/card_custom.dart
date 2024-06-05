@@ -31,7 +31,7 @@ class CardCustom extends StatelessWidget {
           child: Text(
             teks,
             style: Styles.bRegular12,
-            textAlign: (isCenter) ? TextAlign.center : TextAlign.left,
+            textAlign: (isCenter) ? TextAlign.center : TextAlign.justify,
           ),
         ),
         Positioned(child: SVG.quotes1Icon, left: 10, top: -5),
