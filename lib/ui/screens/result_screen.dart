@@ -144,9 +144,11 @@ class _ResultScreenState extends State<ResultScreen>
                   splashColor: Colors.teal,
                   onTap: () async {
                     if (provider.isLastQuestion) {
+                      // show messages is last question
                       ScaffoldMessenger.of(context)
                           .showSnackBar(Styles.snackBarLastAnswers);
                       await provider.refreshIDsQuestion();
+                      // show messages info result answer choices
                       String? rAnswer = provider.answerRightResult;
                       String? tAnswer = provider.answerTotalResult;
                       String teks =
