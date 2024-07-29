@@ -1,25 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/styles.dart';
 import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
 import '../../ui/components/card_custom.dart';
 import '../../core/string_extension.dart';
-import 'package:provider/provider.dart';
-import '../../providers/helpers/question_provider.dart';
+import '../../providers/helpers/backsound_provider.dart';
 
 class GuideScreen extends StatefulWidget {
   final String quizId;
   final String title;
   final String description;
   final String file;
-  GuideScreen(
-      {Key? key,
+  const GuideScreen(
+      {super.key,
       required this.quizId,
       required this.title,
       required this.description,
-      required this.file})
-      : super(key: key);
+      required this.file});
 
   @override
   State<GuideScreen> createState() => _GuideScreenState();
@@ -38,8 +37,8 @@ class _GuideScreenState extends State<GuideScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final qProvider = Provider.of<QuestionProvider>(context, listen: false);
     String content = widget.description;
+    final bsProvider = Provider.of<BacksoundProvider>(context);
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -56,27 +55,50 @@ class _GuideScreenState extends State<GuideScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
+                            Row(children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white54,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
+                                child: SVGBtnIcon(
+                                    svg: SVG.homeIcon,
+                                    onTap: () async {
+                                      Navigator.of(context).pop();
+                                    },
+                                    bgColor: red,
+                                    splashColor: Colors.red),
+                              ),
+                              const SizedBox(width: 10),
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white54,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
+                                child: SVGBtnIcon(
+                                    svg: (!bsProvider.isPlaying)
+                                        ? SVG.speakerOff
+                                        : SVG.speakerOn,
+                                    onTap: () async {
+                                      if (!bsProvider.isPlaying) {
+                                        await bsProvider
+                                            .playAudio("audios/backsong.mp3");
+                                      } else {
+                                        await bsProvider.stopAudio();
+                                      }
+                                    },
+                                    bgColor: Colors.amber,
+                                    splashColor: darkbrown),
+                              )
+                            ]),
                             Container(
-                              padding: EdgeInsets.all(5),
-                              child: SVGBtnIcon(
-                                  svg: SVG.homeIcon,
-                                  onTap: () {
-                                    Navigator.popAndPushNamed(
-                                        context, '/menu-screen');
-                                  },
-                                  bgColor: red,
-                                  splashColor: Colors.red),
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                            ),
-                            Container(
+                                margin: const EdgeInsets.only(right: 20),
                                 child: Text(
                                   widget.title.capitalize(),
                                   style: Styles.bBold15,
-                                ),
-                                margin: EdgeInsets.only(right: 20))
+                                ))
                           ]),
                       Image.asset('assets/images/${widget.file}',
                           width: 60, height: 60),
@@ -104,7 +126,7 @@ class _GuideScreenState extends State<GuideScreen> {
                           },
                           splashColor: Colors.teal),
                       vSpaceSmall,
-                      Text('Denkschnell', style: Styles.sLabelTxtStyle)
+                      const Text('Denkschnell', style: Styles.sLabelTxtStyle)
                     ]))));
   }
 }

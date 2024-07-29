@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'database_helper.dart';
 import '../models/question.dart';
 import '../models/answer.dart';
-import '../../core/string_extension.dart';
 
 class QuestionProvider with ChangeNotifier {
   List<int> _idsQuestion = [];
@@ -102,9 +101,13 @@ class QuestionProvider with ChangeNotifier {
   }
 
   Future<void> checkWrongAnswers() async {
+    int totalQuestions = 15;
     int countWrongAnswersChoices =
         await DatabaseHelper().getCountWrongAnswers();
-    levelEssay = countWrongAnswersChoices == 1 || countWrongAnswersChoices == 0
+    levelEssay = countWrongAnswersChoices == 1 ||
+            countWrongAnswersChoices == 0 ||
+            countWrongAnswersChoices == 1 ||
+            countWrongAnswersChoices == totalQuestions
         ? 'level1'
         : countWrongAnswersChoices == 2
             ? 'level2'

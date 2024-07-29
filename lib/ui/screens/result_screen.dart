@@ -8,8 +8,8 @@ import '../../providers/helpers/question_provider.dart';
 import '../../providers/models/question.dart';
 
 class ResultScreen extends StatefulWidget {
-  String btnTypeChecked;
-  ResultScreen({Key? key, required this.btnTypeChecked}) : super(key: key);
+  final String btnTypeChecked;
+  const ResultScreen({super.key, required this.btnTypeChecked});
 
   @override
   State<ResultScreen> createState() => _ResultScreenState();
@@ -86,17 +86,17 @@ class _ResultScreenState extends State<ResultScreen>
                               height: 70,
                             ),
                             Container(
-                                child: Text(
+                                margin: const EdgeInsets.only(right: 10),
+                                child: const Text(
                                   'Grammatik',
                                   style: Styles.bBold15,
-                                ),
-                                margin: EdgeInsets.only(right: 10))
+                                ))
                           ]),
                       vSpaceMedium,
                       Center(
                           child: Column(
                         children: <Widget>[
-                          Image.asset('assets/images/${resultImage}.png',
+                          Image.asset('assets/images/$resultImage.png',
                               height: 70, width: 70),
                           vSpaceXSmall,
                           Text(resultString, style: Styles.excellent)
@@ -105,7 +105,7 @@ class _ResultScreenState extends State<ResultScreen>
                       vSpaceMedium,
                       cardWhiteHeader(context, 1),
                       vSpaceLarge,
-                      Text('Denkschnell', style: Styles.labelTxtStyle)
+                      const Text('Denkschnell', style: Styles.labelTxtStyle)
                     ]))));
   }
 
@@ -114,26 +114,26 @@ class _ResultScreenState extends State<ResultScreen>
     var screenSizes = MediaQuery.of(context).size;
     return Center(
         child: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10))),
       width: (screenSizes.width / 1.5),
       child: Column(children: <Widget>[
         Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: const BoxDecoration(
                 color: darkbrown,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10))),
-            child: Text(
+            child: const Text(
               'Weitermachen?',
               style: Styles.wBold15,
               textAlign: TextAlign.center,
             )),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 17),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -143,8 +143,9 @@ class _ResultScreenState extends State<ResultScreen>
                   bgColor: red,
                   splashColor: Colors.redAccent,
                   onTap: () async {
-                    await provider.refreshIDsQuestion();
-                    Navigator.popAndPushNamed(context, '/menu-screen');
+                    await provider.refreshIDsQuestion().then((_) {
+                      Navigator.popAndPushNamed(context, '/menu-screen');
+                    });
                   },
                 ),
                 SVGBtnIcon(
@@ -153,38 +154,42 @@ class _ResultScreenState extends State<ResultScreen>
                   splashColor: Colors.teal,
                   onTap: () async {
                     if (provider.isLastQuestion) {
-                      // show messages is last question
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(Styles.snackBarLastAnswers);
-                      await provider.refreshIDsQuestion();
-                      // show messages info result answer choices
-                      String? rAnswer = provider.answerRightResult;
-                      String? tAnswer = provider.answerTotalResult;
-                      String teks =
-                          " You'd been answered right $rAnswer/$tAnswer questions";
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        showCloseIcon: true,
-                        duration: const Duration(milliseconds: 5000),
-                        content: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: <Widget>[
-                              const Icon(Icons.info_outline_rounded,
-                                  color: Colors.white),
-                              Text(teks, style: Styles.wBold13)
-                            ]),
-                        backgroundColor: black,
-                        dismissDirection: DismissDirection.none,
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height - 100,
-                            right: 20,
-                            left: 20),
-                      ));
-                      Navigator.popAndPushNamed(context, '/menu-screen');
+                      await provider.refreshIDsQuestion().then((_) {
+                        // show messages is last question
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(Styles.snackBarLastAnswers);
+                        // show messages info result answer choices
+                        String? rAnswer = provider.answerRightResult;
+                        String? tAnswer = provider.answerTotalResult;
+                        String teks =
+                            " You'd been answered right $rAnswer/$tAnswer questions";
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          showCloseIcon: true,
+                          duration: const Duration(milliseconds: 5000),
+                          content: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: <Widget>[
+                                const Icon(Icons.info_outline_rounded,
+                                    color: Colors.white),
+                                Text(teks, style: Styles.wBold13)
+                              ]),
+                          backgroundColor: black,
+                          dismissDirection: DismissDirection.none,
+                          behavior: SnackBarBehavior.floating,
+                          margin: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).size.height - 100,
+                              right: 20,
+                              left: 20),
+                        ));
+                        Navigator.popAndPushNamed(context, '/menu-screen');
+                      });
                     } else {
-                      await provider.fetchQuestion('multiple_choice', 'level1',
-                          isNextQuestion: true);
-                      Navigator.pop(context);
+                      await provider
+                          .fetchQuestion('multiple_choice', 'level1',
+                              isNextQuestion: true)
+                          .then((_) {
+                        Navigator.pop(context);
+                      });
                     }
                   },
                 ),

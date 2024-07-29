@@ -7,7 +7,7 @@ import '../../providers/helpers/question_provider.dart';
 import 'package:intl/intl.dart';
 
 class EssaySheet extends StatefulWidget {
-  EssaySheet({Key? key}) : super(key: key);
+  const EssaySheet({super.key});
 
   @override
   State<EssaySheet> createState() => _EssaySheetState();
@@ -48,7 +48,7 @@ class _EssaySheetState extends State<EssaySheet> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 5),
+                      padding: const EdgeInsets.symmetric(horizontal: 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -73,7 +73,8 @@ class _EssaySheetState extends State<EssaySheet> {
                             ? Icons.arrow_circle_down
                             : Icons.arrow_circle_right,
                         color: darkblue),
-                    label: Text('Check Our Answers', style: Styles.txtBtn),
+                    label:
+                        const Text('Check Our Answers', style: Styles.txtBtn),
                   ),
                   Visibility(
                       visible: qProvider.isVisibleAnswer,
@@ -90,7 +91,7 @@ class _EssaySheetState extends State<EssaySheet> {
                               Styles.grBold15))),
                 ]))
         : Container(
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             height: 280,
             width: MediaQuery.of(context).size.width,
             child: Column(
@@ -108,10 +109,10 @@ class _EssaySheetState extends State<EssaySheet> {
                           hintStyle: const TextStyle(
                               color: greyv2, fontWeight: FontWeight.normal),
                           focusedBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: grey),
+                              borderSide: const BorderSide(color: grey),
                               borderRadius: BorderRadius.circular(22)),
                           enabledBorder: OutlineInputBorder(
-                              borderSide: BorderSide(color: grey),
+                              borderSide: const BorderSide(color: grey),
                               borderRadius: BorderRadius.circular(22))),
                     ),
                   ),
@@ -124,7 +125,7 @@ class _EssaySheetState extends State<EssaySheet> {
                         "answer_text": teksVal
                       };
                       if (teksVal.isNotEmpty) {
-                        await qProvider.saveAnswer(dataAnswer);
+                        qProvider.saveAnswer(dataAnswer);
                         Navigator.pop(context);
                         ScaffoldMessenger.of(context)
                             .showSnackBar(Styles.snackBarSuccessAnswers);
@@ -134,7 +135,7 @@ class _EssaySheetState extends State<EssaySheet> {
                             .showSnackBar(Styles.snackBarFailAnswers);
                       }
                     },
-                    child: Text('Save'),
+                    child: const Text('Save'),
                   )
                 ]),
           );
@@ -143,7 +144,7 @@ class _EssaySheetState extends State<EssaySheet> {
   Widget containerTxt(BuildContext context, String? teks, Color borderColor,
       TextStyle styleTxt) {
     return Container(
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
         width: double.infinity,
         decoration: BoxDecoration(
             border: Border.all(color: borderColor, width: 1),

@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/ui_helper.dart';
 import '../../core/styles.dart';
 import '../../providers/helpers/database_helper.dart';
-import 'guide_screen.dart';
+import '../../providers/helpers/backsound_provider.dart';
 import '../../core/string_extension.dart';
+import '../../ui/components/svg.dart';
+import '../../ui/components/svg_btn_icon.dart';
+import 'guide_screen.dart';
 
 class MenuScreen extends StatefulWidget {
-  MenuScreen({Key? key}) : super(key: key);
+  const MenuScreen({super.key});
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
@@ -38,6 +42,7 @@ class _MenuScreenState extends State<MenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bsProvider = Provider.of<BacksoundProvider>(context);
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -52,16 +57,43 @@ class _MenuScreenState extends State<MenuScreen> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                      Text('Denkschnell', style: Styles.labelTxtStyle),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            const Text('Denkschnell',
+                                style: Styles.labelTxtStyle),
+                            const SizedBox(width: 10),
+                            Container(
+                              padding: const EdgeInsets.all(5),
+                              decoration: const BoxDecoration(
+                                  color: Colors.white54,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(50))),
+                              child: SVGBtnIcon(
+                                  svg: (!bsProvider.isPlaying)
+                                      ? SVG.speakerOff
+                                      : SVG.speakerOn,
+                                  onTap: () async {
+                                    if (!bsProvider.isPlaying) {
+                                      await bsProvider
+                                          .playAudio("audios/backsong.mp3");
+                                    } else {
+                                      await bsProvider.stopAudio();
+                                    }
+                                  },
+                                  bgColor: Colors.amber,
+                                  splashColor: darkbrown),
+                            )
+                          ]),
                       vSpaceMedium,
                       Column(
                         children: <Widget>[
                           _isLoading
-                              ? Center(
+                              ? const Center(
                                   child: CircularProgressIndicator(
                                       color: darkblue))
                               : menus!.isEmpty
-                                  ? Center(child: Text('empty...'))
+                                  ? const Center(child: Text('empty...'))
                                   : GridView.builder(
                                       gridDelegate:
                                           const SliverGridDelegateWithMaxCrossAxisExtent(
@@ -114,7 +146,7 @@ class _MenuScreenState extends State<MenuScreen> {
                 },
                 borderRadius: BorderRadius.circular(15),
                 child: Container(
-                    margin: EdgeInsets.all(5),
+                    margin: const EdgeInsets.all(5),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -126,12 +158,11 @@ class _MenuScreenState extends State<MenuScreen> {
                                 (menuType) ? Styles.wBold13 : Styles.wBold10),
                         vSpaceXSmall,
                         Container(
-                          margin: EdgeInsets.symmetric(
-                              horizontal: (menuType) ? 0 : 10),
-                          child: Image.asset('assets/images/$nameFile'),
-                          height: (menuType) ? 60 : 35,
-                          width: (menuType) ? 60 : 35,
-                        ),
+                            height: (menuType) ? 60 : 35,
+                            width: (menuType) ? 60 : 35,
+                            margin: EdgeInsets.symmetric(
+                                horizontal: (menuType) ? 0 : 10),
+                            child: Image.asset('assets/images/$nameFile')),
                       ],
                     )))));
   }

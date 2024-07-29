@@ -5,7 +5,7 @@ import '../components/card_custom.dart';
 import '../../providers/helpers/database_helper.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -34,14 +34,15 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
             child: _isLoading
-                ? CircularProgressIndicator(color: darkblue)
+                ? const CircularProgressIndicator(color: darkblue)
                 : abouts!.isEmpty
-                    ? Text('...')
+                    ? const Text('...')
                     : Container(
                         decoration: const BoxDecoration(
                           gradient: Styles.linearGradient,
@@ -63,7 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Navigator.pushReplacementNamed(
                                     context, '/menu-screen');
                               },
-                              child: Text('Next'),
+                              child: const Text('Next'),
                             )
                           ],
                         )))));

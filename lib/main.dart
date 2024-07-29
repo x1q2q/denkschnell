@@ -10,6 +10,7 @@ import 'ui/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import '../../providers/helpers/question_provider.dart';
 import '../../providers/helpers/audio_provider.dart';
+import '../../providers/helpers/backsound_provider.dart';
 import 'package:flutter/services.dart';
 
 void main() {
@@ -19,7 +20,8 @@ void main() {
     runApp(MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => QuestionProvider()),
-        ChangeNotifierProvider(create: (_) => AudioProvider())
+        ChangeNotifierProvider(create: (_) => AudioProvider()),
+        ChangeNotifierProvider(create: (_) => BacksoundProvider())
       ],
       child: const MainApp(),
     ));
@@ -40,16 +42,16 @@ class MainApp extends StatelessWidget {
           secondary: lightbrown,
         ),
       ),
-      home: SplashScreen(),
+      home: const SplashScreen(),
       debugShowCheckedModeBanner: false,
       routes: {
-        '/splash-screen': (context) => SplashScreen(),
-        '/home-screen': (context) => HomeScreen(),
-        '/menu-screen': (context) => MenuScreen(),
-        '/quiz1-screen': (context) => Quiz1Screen(),
-        '/quiz2-screen': (context) => Quiz2Screen(),
-        '/quiz3-screen': (context) => Quiz3Screen(),
-        '/aboutus-screen': (context) => AboutUsScreen(),
+        '/splash-screen': (context) => const SplashScreen(),
+        '/home-screen': (context) => const HomeScreen(),
+        '/menu-screen': (context) => const MenuScreen(),
+        '/quiz1-screen': (context) => const Quiz1Screen(),
+        '/quiz2-screen': (context) => const Quiz2Screen(),
+        '/quiz3-screen': (context) => const Quiz3Screen(),
+        '/aboutus-screen': (context) => const AboutUsScreen(),
       },
     );
   }

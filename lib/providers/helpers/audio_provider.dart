@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'database_helper.dart';
-import '../models/question.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class AudioProvider with ChangeNotifier {

@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'svg_btn_icon.dart';
-import 'my_separator.dart';
 import '../../core/ui_helper.dart';
 import '../../core/styles.dart';
-import 'package:provider/provider.dart';
 import '../../providers/helpers/audio_provider.dart';
+import '../../providers/helpers/backsound_provider.dart';
 
 class ModalSheet extends StatefulWidget {
   final String teksAudio;
-  ModalSheet({Key? key, required this.teksAudio}) : super(key: key);
+  const ModalSheet({super.key, required this.teksAudio});
 
   @override
   State<ModalSheet> createState() => _ModalSheetState();
@@ -28,6 +28,7 @@ class _ModalSheetState extends State<ModalSheet> {
   @override
   Widget build(BuildContext context) {
     final aProvider = Provider.of<AudioProvider>(context);
+    final bsProvider = Provider.of<BacksoundProvider>(context);
     return Container(
       padding: const EdgeInsets.all(20),
       constraints: const BoxConstraints(
@@ -52,10 +53,10 @@ class _ModalSheetState extends State<ModalSheet> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Padding(
-                        padding: EdgeInsets.only(left: 15),
+                        padding: const EdgeInsets.only(left: 15),
                         child: Text(
                           widget.teksAudio,
-                          style: TextStyle(
+                          style: const TextStyle(
                               color: greyv2, fontWeight: FontWeight.normal),
                         )),
                     SVGBtnIcon(
@@ -68,7 +69,10 @@ class _ModalSheetState extends State<ModalSheet> {
                         onTap: () async {
                           aProvider.setSource("audios/${widget.teksAudio}.mp3");
                           if (!aProvider.onPlay) {
-                            aProvider.play();
+                            if (bsProvider.isPlaying) {
+                              await bsProvider.stopAudio();
+                            }
+                            await aProvider.play();
                           } else {
                             aProvider.pause();
                           }
@@ -77,53 +81,6 @@ class _ModalSheetState extends State<ModalSheet> {
                   ],
                 )),
             vSpaceSmall,
-            // const MySeparator(height: 1, color: greyv2),
-            // vSpaceSmall,
-            // Row(
-            //   crossAxisAlignment: CrossAxisAlignment.center,
-            //   mainAxisAlignment: MainAxisAlignment.center,
-            //   children: <Widget>[
-            //     Text(
-            //       'Say Something ... ',
-            //       style:
-            //           TextStyle(color: greyv2, fontWeight: FontWeight.normal),
-            //     ),
-            //     SVGBtnIcon(
-            //         svg: Icon(Icons.mic, color: Colors.white, size: 30),
-            //         bgColor: red,
-            //         onTap: () {},
-            //         splashColor: Colors.pink)
-            //   ],
-            // )
-            // Container(
-            //     padding: EdgeInsets.symmetric(horizontal: 5),
-            //     width: double.infinity,
-            //     height: 60,
-            //     decoration: BoxDecoration(
-            //         border: Border.all(color: greyv2, width: 2),
-            //         borderRadius: BorderRadius.circular(50)),
-            //     child: Row(
-            //       crossAxisAlignment: CrossAxisAlignment.center,
-            //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //       children: <Widget>[
-            //         Padding(
-            //             padding: EdgeInsets.only(left: 15),
-            //             child: Text(
-            //               'YOUR SUBMISSION',
-            //               style: TextStyle(
-            //                   color: greyv2, fontWeight: FontWeight.normal),
-            //             )),
-            //         SVGBtnIcon(
-            //             svg: Icon(
-            //               Icons.play_arrow,
-            //               color: Colors.white,
-            //               size: 30,
-            //             ),
-            //             bgColor: greyv2,
-            //             onTap: () {},
-            //             splashColor: Colors.grey)
-            //       ],
-            //     )),
           ]),
     );
   }

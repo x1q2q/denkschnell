@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'ui_helper.dart';
 
 class Styles {
+  Styles._();
   static const labelTxtStyle = TextStyle(
       fontFamily: 'edo',
       fontWeight: FontWeight.w600,
@@ -139,8 +140,8 @@ class Styles {
     elevation: 0.5,
     textStyle: wBold15,
     backgroundColor: darkblue,
-    minimumSize: Size(120, 50),
-    padding: EdgeInsets.symmetric(horizontal: 16),
+    minimumSize: const Size(120, 50),
+    padding: const EdgeInsets.symmetric(horizontal: 16),
     shape: const RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(30)),
     ),
@@ -173,7 +174,7 @@ class Styles {
   );
 
   static const snackBarLastAnswers = SnackBar(
-    duration: const Duration(milliseconds: 1000),
+    duration: Duration(milliseconds: 1000),
     content:
         Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
       Icon(Icons.info_outline_rounded, color: Colors.white),

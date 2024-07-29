@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/ui_helper.dart';
 import '../../core/styles.dart';
 import '../components/svg_btn_icon.dart';
 import '../components/svg.dart';
 import '../../providers/helpers/database_helper.dart';
+import '../../providers/helpers/backsound_provider.dart';
 
 class AboutUsScreen extends StatefulWidget {
-  AboutUsScreen({Key? key}) : super(key: key);
+  const AboutUsScreen({super.key});
 
   @override
   State<AboutUsScreen> createState() => _AboutUsScreenState();
@@ -37,6 +39,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bsProvider = Provider.of<BacksoundProvider>(context);
     return Scaffold(
         backgroundColor: lightblue,
         body: SafeArea(
@@ -52,27 +55,50 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                       Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: <Widget>[
+                            Row(children: <Widget>[
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white54,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
+                                child: SVGBtnIcon(
+                                    svg: SVG.homeIcon,
+                                    onTap: () async {
+                                      Navigator.of(context).pop();
+                                    },
+                                    bgColor: red,
+                                    splashColor: Colors.red),
+                              ),
+                              const SizedBox(width: 10),
+                              Container(
+                                padding: const EdgeInsets.all(5),
+                                decoration: const BoxDecoration(
+                                    color: Colors.white54,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(50))),
+                                child: SVGBtnIcon(
+                                    svg: (!bsProvider.isPlaying)
+                                        ? SVG.speakerOff
+                                        : SVG.speakerOn,
+                                    onTap: () async {
+                                      if (!bsProvider.isPlaying) {
+                                        await bsProvider
+                                            .playAudio("audios/backsong.mp3");
+                                      } else {
+                                        await bsProvider.stopAudio();
+                                      }
+                                    },
+                                    bgColor: Colors.amber,
+                                    splashColor: darkbrown),
+                              )
+                            ]),
                             Container(
-                              padding: EdgeInsets.all(5),
-                              child: SVGBtnIcon(
-                                  svg: SVG.homeIcon,
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, '/menu-screen');
-                                  },
-                                  bgColor: red,
-                                  splashColor: Colors.red),
-                              decoration: BoxDecoration(
-                                  color: Colors.amber,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(50))),
-                            ),
-                            Container(
-                                child: Text(
+                                margin: const EdgeInsets.only(right: 10),
+                                child: const Text(
                                   'Tentang Kami',
                                   style: Styles.bBold15,
-                                ),
-                                margin: EdgeInsets.only(right: 10))
+                                ))
                           ]),
                       vSpaceSmall,
                       SizedBox.fromSize(
@@ -83,25 +109,25 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                               child: InkWell(
                                   borderRadius: BorderRadius.circular(15),
                                   child: Container(
-                                      margin: EdgeInsets.all(5),
+                                      margin: const EdgeInsets.all(5),
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(15),
                                       ),
                                       child: Container(
-                                        margin: EdgeInsets.symmetric(
+                                        height: 35,
+                                        width: 35,
+                                        margin: const EdgeInsets.symmetric(
                                             horizontal: 5, vertical: 5),
                                         child: Image.asset(
                                             'assets/images/spiral.png'),
-                                        height: 35,
-                                        width: 35,
                                       ))))),
                       vSpaceSmall,
                       Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 15),
+                          padding: const EdgeInsets.symmetric(horizontal: 15),
                           child: _isLoading
-                              ? CircularProgressIndicator(color: darkblue)
+                              ? const CircularProgressIndicator(color: darkblue)
                               : abouts!.isEmpty
-                                  ? Text('...')
+                                  ? const Text('...')
                                   : Text(
                                       abouts?[0]['app_descriptions']
                                           .replaceAll('_', '\n'),
@@ -114,7 +140,7 @@ class _AboutUsScreenState extends State<AboutUsScreen> {
                         height: 70,
                         width: 70,
                       ),
-                      Text('Denkschnell', style: Styles.xsLabelTxtStyle)
+                      const Text('Denkschnell', style: Styles.xsLabelTxtStyle)
                     ]))));
   }
 }

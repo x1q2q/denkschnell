@@ -6,17 +6,16 @@ class SVGBtnIcon extends StatelessWidget {
   final Color bgColor;
   final Color splashColor;
   const SVGBtnIcon(
-      {Key? key,
+      {super.key,
       required this.svg,
       this.onTap,
       required this.bgColor,
-      required this.splashColor})
-      : super(key: key);
+      required this.splashColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         shape: BoxShape.circle,
       ),
       child: Material(

@@ -9,11 +9,10 @@ class CardCustom extends StatelessWidget {
   final bool isCenter;
 
   const CardCustom(
-      {Key? key,
+      {super.key,
       required this.parentContext,
       required this.teks,
-      required this.isCenter})
-      : super(key: key);
+      required this.isCenter});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +20,11 @@ class CardCustom extends StatelessWidget {
     return Stack(
       children: <Widget>[
         Container(
-          margin: EdgeInsets.symmetric(vertical: 30),
-          padding: EdgeInsets.symmetric(vertical: 30, horizontal: 20),
+          margin: const EdgeInsets.symmetric(vertical: 30),
+          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
           decoration: BoxDecoration(
               color: lightbrown,
-              borderRadius: BorderRadius.all(Radius.circular(45)),
+              borderRadius: const BorderRadius.all(Radius.circular(45)),
               border: Border.all(color: black, width: 2)),
           width: (screenSizes.width / 2) + screenSizes.width / 3,
           child: Text(
@@ -34,8 +33,8 @@ class CardCustom extends StatelessWidget {
             textAlign: (isCenter) ? TextAlign.center : TextAlign.justify,
           ),
         ),
-        Positioned(child: SVG.quotes1Icon, left: 10, top: -5),
-        Positioned(child: SVG.quotes2Icon, right: 10, bottom: -5),
+        Positioned(left: 10, top: -5, child: SVG.quotes1Icon),
+        Positioned(right: 10, bottom: -5, child: SVG.quotes2Icon),
       ],
     );
   }

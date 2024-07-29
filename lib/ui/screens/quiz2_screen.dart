@@ -1,15 +1,16 @@
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../core/styles.dart';
 import '../../ui/components/svg_btn_icon.dart';
 import '../../core/ui_helper.dart';
 import '../../ui/components/svg.dart';
-import 'package:provider/provider.dart';
 import '../../providers/helpers/question_provider.dart';
+import '../../providers/helpers/backsound_provider.dart';
 import '../components/essay_sheet.dart';
-import 'package:intl/date_symbol_data_local.dart';
 
 class Quiz2Screen extends StatefulWidget {
-  Quiz2Screen({Key? key}) : super(key: key);
+  const Quiz2Screen({super.key});
 
   @override
   State<Quiz2Screen> createState() => _Quiz2ScreenState();
@@ -32,11 +33,11 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
+  void didChangeAppLifecycleState(AppLifecycleState state) async {
     super.didChangeAppLifecycleState(state);
     if (state == AppLifecycleState.detached) {
       final qProvider = Provider.of<QuestionProvider>(context, listen: false);
-      qProvider.refreshIDsQuestion();
+      await qProvider.refreshIDsQuestion();
     }
   }
 
@@ -48,12 +49,14 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<QuestionProvider>(context);
+    final bsProvider = Provider.of<BacksoundProvider>(context);
     var screenSizes = MediaQuery.of(context).size;
     return PopScope(
         canPop: false,
         onPopInvoked: (didPop) async {
-          await provider.refreshIDsQuestion();
-          Navigator.pop(context);
+          await provider
+              .refreshIDsQuestion()
+              .then((_) => Navigator.pop(context));
         },
         child: Scaffold(
             backgroundColor: lightblue,
@@ -70,57 +73,73 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: SVGBtnIcon(
-                                      svg: SVG.homeIcon,
-                                      onTap: () async {
-                                        await provider.refreshIDsQuestion();
-                                        Navigator.pushNamed(
-                                            context, '/menu-screen');
-                                      },
-                                      bgColor: red,
-                                      splashColor: Colors.red),
-                                  decoration: BoxDecoration(
-                                      color: Colors.amber,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(50))),
-                                ),
-                                Container(
-                                    child: Text(
-                                      'Landeskunde',
-                                      style: Styles.bBold15,
-                                    ),
-                                    margin: EdgeInsets.only(right: 10))
-                              ]),
-                          vSpaceMedium,
-                          Stack(
-                            clipBehavior: Clip.none,
-                            children: <Widget>[
-                              Container(
-                                margin: EdgeInsets.symmetric(
-                                    vertical: 20, horizontal: 0),
-                                padding: EdgeInsets.symmetric(
-                                    vertical: 30, horizontal: 10),
-                                decoration: const BoxDecoration(
-                                    color: Colors.white,
-                                    boxShadow: [Styles.boxCardShdStyle],
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(20))),
-                                width:
-                                    screenSizes.width - (screenSizes.width / 8),
-                                child: Column(children: <Widget>[
-                                  Text(
-                                    provider.question?.questionText ??
-                                        teksQuestion,
-                                    style: Styles.bBold14,
-                                    textAlign: TextAlign.center,
+                                Row(children: <Widget>[
+                                  Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white54,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: SVGBtnIcon(
+                                        svg: SVG.homeIcon,
+                                        onTap: () async {
+                                          await provider
+                                              .refreshIDsQuestion()
+                                              .then((_) => Navigator.pushNamed(
+                                                  context, '/menu-screen'));
+                                        },
+                                        bgColor: red,
+                                        splashColor: Colors.red),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Container(
+                                    padding: const EdgeInsets.all(5),
+                                    decoration: const BoxDecoration(
+                                        color: Colors.white54,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(50))),
+                                    child: SVGBtnIcon(
+                                        svg: (!bsProvider.isPlaying)
+                                            ? SVG.speakerOff
+                                            : SVG.speakerOn,
+                                        onTap: () async {
+                                          if (!bsProvider.isPlaying) {
+                                            await bsProvider.playAudio(
+                                                "audios/backsong.mp3");
+                                          } else {
+                                            await bsProvider.stopAudio();
+                                          }
+                                        },
+                                        bgColor: Colors.amber,
+                                        splashColor: darkbrown),
                                   )
                                 ]),
-                              ),
-                              Positioned(
-                                  child: SVG.speakerIcon, left: -10, top: -30),
-                            ],
+                                Container(
+                                    margin: const EdgeInsets.only(right: 10),
+                                    child: const Text(
+                                      'Landeskunde',
+                                      style: Styles.bBold15,
+                                    ))
+                              ]),
+                          vSpaceMedium,
+                          Container(
+                            margin: const EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 0),
+                            padding: const EdgeInsets.symmetric(
+                                vertical: 30, horizontal: 10),
+                            decoration: const BoxDecoration(
+                                color: Colors.white,
+                                boxShadow: [Styles.boxCardShdStyle],
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            width: screenSizes.width - (screenSizes.width / 8),
+                            child: Column(children: <Widget>[
+                              Text(
+                                provider.question?.questionText ?? teksQuestion,
+                                style: Styles.bBold14,
+                                textAlign: TextAlign.center,
+                              )
+                            ]),
                           ),
                           vSpaceXSmall,
                           cardWhiteHeader(context,
@@ -133,26 +152,26 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
     var screenSizes = MediaQuery.of(context).size;
     return Center(
         child: Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(Radius.circular(10))),
       width: (screenSizes.width / 1.5),
       child: Column(children: <Widget>[
         Container(
             width: double.infinity,
-            padding: EdgeInsets.symmetric(vertical: 10),
-            decoration: BoxDecoration(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            decoration: const BoxDecoration(
                 color: darkbrown,
                 borderRadius: BorderRadius.only(
                     topLeft: Radius.circular(10),
                     topRight: Radius.circular(10))),
-            child: Text(
+            child: const Text(
               'Weitermachen?',
               style: Styles.wBold15,
               textAlign: TextAlign.center,
             )),
         Padding(
-            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 17),
+            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 17),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -169,7 +188,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                   onTap: () async {
                     await showModalBottomSheet(
                         isScrollControlled: true,
-                        shape: RoundedRectangleBorder(
+                        shape: const RoundedRectangleBorder(
                             borderRadius: BorderRadius.vertical(
                                 top: Radius.circular(32))),
                         context: context,
@@ -177,7 +196,7 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                             padding: EdgeInsets.only(
                                 bottom:
                                     MediaQuery.of(context).viewInsets.bottom),
-                            child: EssaySheet()));
+                            child: const EssaySheet()));
                   },
                 ),
                 SVGBtnIcon(
@@ -186,10 +205,11 @@ class _Quiz2ScreenState extends State<Quiz2Screen> with WidgetsBindingObserver {
                   splashColor: Colors.teal,
                   onTap: () async {
                     if (qProvider.isLastQuestion) {
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(Styles.snackBarLastAnswers);
-                      await qProvider.refreshIDsQuestion();
-                      Navigator.pushNamed(context, '/menu-screen');
+                      await qProvider.refreshIDsQuestion().then((_) {
+                        ScaffoldMessenger.of(context)
+                            .showSnackBar(Styles.snackBarLastAnswers);
+                        Navigator.pushNamed(context, '/menu-screen');
+                      });
                     } else {
                       await qProvider.fetchQuestion('essay_text', 'level1',
                           isNextQuestion: true);
